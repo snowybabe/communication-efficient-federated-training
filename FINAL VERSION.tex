@@ -1,0 +1,199 @@
+\documentclass[journal]{IEEEtran}
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}  
+\else
+\fi
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{amsmath}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{bbm}
+\usepackage[noend]{algpseudocode}
+\usepackage{array}
+\usepackage{balance}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{threeparttable}
+%\usepackage{cite}
+\usepackage{subfigure}
+\allowdisplaybreaks
+\newcommand\algotext[1]{\end{algorithmic}#1\begin{algorithmic}[1]}
+
+
+\input{yaweinewcomm}
+\newtheorem{Definition}{\bf{Definition}}
+\newtheorem{Property}{\bf{Property}}
+\newtheorem{Theorem}{\bf{Theorem}}
+\newtheorem{Corollary}{\bf{Corollary}}
+\newtheorem{Lemma}{\bf{Lemma}}
+\newtheorem{Remark}{\bf{Remark}}
+\newtheorem{Assumption}{\bf{Assumption}}
+\begin{document}
+
+
+\title{Communication Efficient Training of Federated Model Over Unbalanced Labels}
+
+
+\author{Yawei Zhao, Qinghe Liu, Mingming Jiang, Kunlun He
+\thanks{Yawei Zhao, Qinghe Liu, Mingming Jiang, and Kunlun He are with the Medical Big Data Research Center, Chinese PLA General Hospital, Beijing, 100039, China. E-mail: \texttt{csyawei.zhao@gmail.com},  \texttt{Liuqinghe9638@163.com}, \texttt{jiangmingming1994@163.com}, \texttt{kunlunhe@plagh.org}.
+}
+}
+
+
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+\begin{abstract}
+xxx
+
+\end{abstract}
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+xxxx
+\end{IEEEkeywords}
+
+
+\IEEEpeerreviewmaketitle
+
+
+\section{Introduction}
+\label{sect_introduction}
+xxx
+
+
+
+
+\section{Formulation}
+
+\subsection{Personalized Representation based on Similarity Network}
+
+Personalized models are built based on the similarity network. The similarity network measures the similarity of data distribution under data/feature/model space.  
+\begin{itemize}
+\item \textbf{Data space.} In the case, local datasets of every node are used to construct a \textit{kernel} matrix. The similarity of data distribution is measured by xxxxx.
+\item \textbf{Feature space.} In the case, local datasets of every node are used to construct a \textit{covariance} matrix. It represents the dependence structure among features. The similarity of data distribution is measured based on the distance between covariance matrices.
+\item \textbf{Model space.} In the case, local model of every node is trained by using the local dataset. The similarity of data distribution is measured based on the distance between local models.
+\end{itemize}
+
+Based on similarity under those space, the similarity network $\Gcal = \{\Ncal, \Ecal\}$ is built by using the KNN method \cite{dd}. $\Ncal=\{1,2, ..., N\}$ represents the node set, and $\Ecal=\{e_{i,j} : i\in\Ncal, j {~} \text{is the node $i$'s neighbour}\}$.  
+
+\begin{figure}[!t]
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\centering 
+\includegraphics[width=0.97\columnwidth]{figs/figs_networkG}
+\caption{Personalized representation based on similarity network}
+\label{figure_xxx}
+\end{figure}
+
+
+
+\subsection{Final Formulation}
+Given the mapping matrix $\M\in\RR^{d\times d_1}$ and $\N\in\RR^{d\times d_2}$, the objective problem is formulated by
+\begin{align}
+\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \sum_{n\in\Ncal} f_n\lrincir{\x^{(n)}; \A_n} + \lambda \sum_{\substack{e_{i,j} \in \Ecal,\\ \forall i,j\in\Ncal}} \lrnorm{\z^{(i)} - \z^{(j)}}_p,
+\end{align} subject to:
+\begin{align}
+\x^{(n)} = \M\x + \N \z^{(n)},{~~~~}\forall n\in\Ncal, \x\in\RR^{d_1}, \z^{(n)}\in\RR^{d_2}.
+\end{align} Here, $p\in\{1,2,\infty\}$. $\M$ and $\N$ has special structure, where every row of them has at most one non-zero value, and the non-zero value is $1$.  
+
+The formulation equals to the following problem.
+\begin{align}
+\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \sum_{n\in\Ncal} f_n\lrincir{\x^{(n)}; \A_n} + \lambda \lrnorm{\z^{(i)} - \z^{(j)}}_p,
+\end{align} subject to:
+\begin{align}
+\x^{(n)} = \M\x + \N \z^{(n)},{~~~~}\forall n\in\Ncal, \x\in\RR^{d_1}, \z^{(n)}\in\RR^{d_2}.
+\end{align} 
+
+
+
+
+
+\begin{figure}[!t]
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\centering 
+\includegraphics[width=0.97\columnwidth]{figs/figs_MNmatrix}
+\caption{for example: $\M$ and $\N$ }
+\label{figure_xxx}
+\end{figure}
+
+
+
+
+\subsection{Federated Optimization Methods}
+
+The update of local model $\x^{(n)}_{t+1}$ is obtained by solving the following problem.
+\begin{align}
+\min_{\substack{\x^{(n)}\in\RR^{d}}} f_n\lrincir{\x^{(n)}; \A_n} + \lambda \sum_{\substack{e_{n,j} \in \Ecal,\\ \forall j\in\Ncal}} \lrnorm{\z^{(n)} - \z^{(j)}},
+\end{align} subject to:
+\begin{align}
+\x^{(n)} = \M\x + \N \z^{(n)}.
+\end{align} By using SGD \cite{xx}, the local model is updated by performing the following problem.
+\begin{align}
+\min_{\substack{\x^{(n)}\in\RR^{d}}} \lrangle{\g_t^{(n)}, \x^{(n)}-\x_t} + \lambda \sum_{\substack{e_{n,j} \in \Ecal,\\ \forall j\in\Ncal}} \lrnorm{\z^{(n)} - \z^{(j)}} + \frac{1}{2\eta}\lrnorm{\x^{(n)} - \x_t}^2,
+\end{align} subject to:
+\begin{align}
+\x^{(n)} = \M\x + \N \z^{(n)}.
+\end{align}
+
+
+
+
+
+
+
+
+\textbf{On client.}  
+
+
+\textbf{On server.}
+
+\section{Communication Efficient Training}
+
+
+
+\section{Empirical Studies}
+
+
+
+
+
+
+
+
+
+\section*{Acknowledgment}
+This work was supported by the xx. 
+
+
+
+%\bibliographystyle{IEEEtran}  
+%\bibliography{reference}
+
+
+%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{Yawei.pdf}}]{Yawei Zhao} is currently a Ph.D. candidate in Computer Science from the National University of Defense Technology, China. He received his B.E. degree and M.S. degree in Computer Science from the National University of Defense Technology, China, in 2013 and 2015, respectively. His research interests include asynchronous and parallel optimization algorithms, pattern recognition and machine learning.
+%[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{xxx.pdf}}]{Yawei Zhao} is currently a Ph.D. candidate in Computer Science from the National University of Defense Technology, China. He received his B.E. degree and M.S. degree in Computer Science from the National University of Defense Technology, China, in 2013 and 2015, respectively. His research interests include asynchronous and parallel optimization algorithms, pattern recognition and machine learning.
+%[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{jiliu.jpg}}]{Ji Liu} is currently a Ph.D. candidate in Computer Science from the National University of Defense Technology, China. He received his B.E. degree and M.S. degree in Computer Science from the National University of Defense Technology, China, in 2013 and 2015, respectively. His research interests include asynchronous and parallel optimization algorithms, pattern recognition and machine learning.
+%\end{IEEEbiography}
+
+
+
+
+\end{document}
+
+
