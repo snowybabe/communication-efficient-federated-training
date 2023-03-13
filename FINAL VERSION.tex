@@ -89,7 +89,7 @@ Personalized models are built based on the similarity network. The similarity ne
 \item \textbf{Model space.} In the case, local model of every node is trained by using the local dataset. The similarity of data distribution is measured based on the distance between local models.
 \end{itemize}
 
-Based on similarity under those space, the similarity network $\Gcal = \{\Ncal, \Ecal\}$ is built by using the KNN method \cite{dd}. $\Ncal=\{1,2, ..., N\}$ represents the node set, and $\Ecal=\{e_{i,j} : i\in\Ncal, j {~} \text{is the node $i$'s neighbour}\}$.  
+Based on similarity under those space, the similarity network $\Gcal = \{\Ncal, \Ecal\}$ is built by using the KNN method \cite{dd}. $\Ncal=\{1,2, ..., N\}$ represents the node set, consisting of $N$ nodes. $\Ecal=\{e_{i,j} : i\in\Ncal, j {~} \text{is the node $i$'s neighbour}\}$ represents the edge set, consisting of $M$ edges. 
 
 \begin{figure}[!t]
 \setlength{\abovecaptionskip}{0pt}
@@ -105,22 +105,33 @@ Based on similarity under those space, the similarity network $\Gcal = \{\Ncal, 
 \subsection{Final Formulation}
 Given the mapping matrix $\M\in\RR^{d\times d_1}$ and $\N\in\RR^{d\times d_2}$, the objective problem is formulated by
 \begin{align}
-\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \sum_{n\in\Ncal} f_n\lrincir{\x^{(n)}; \A_n} + \lambda \sum_{\substack{e_{i,j} \in \Ecal,\\ \forall i,j\in\Ncal}} \lrnorm{\z^{(i)} - \z^{(j)}}_p,
+\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n\in\Ncal} f_n\lrincir{\x^{(n)}; \D_n} + \lambda \sum_{\substack{e_{i,j} \in \Ecal,\\ \forall i,j\in\Ncal}} \lrnorm{\z^{(i)} - \z^{(j)}}_p,
 \end{align} subject to:
 \begin{align}
 \x^{(n)} = \M\x + \N \z^{(n)},{~~~~}\forall n\in\Ncal, \x\in\RR^{d_1}, \z^{(n)}\in\RR^{d_2}.
 \end{align} Here, $p\in\{1,2,\infty\}$. $\M$ and $\N$ has special structure, where every row of them has at most one non-zero value, and the non-zero value is $1$.  
 
-The formulation equals to the following problem.
+The formulation can be equally transformed as follows.
 \begin{align}
-\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \sum_{n\in\Ncal} f_n\lrincir{\x^{(n)}; \A_n} + \lambda \lrnorm{\z^{(i)} - \z^{(j)}}_p,
+\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\x^{(n)}; \D_n} + \lambda \lrnorm{\Z\Q}_{1,p},
 \end{align} subject to:
 \begin{align}
-\x^{(n)} = \M\x + \N \z^{(n)},{~~~~}\forall n\in\Ncal, \x\in\RR^{d_1}, \z^{(n)}\in\RR^{d_2}.
-\end{align} 
+\x^{(n)} = \M\x + \N \z^{(n)}.
+\end{align} Here, $\Z\in\RR^{d_2 \times N}$, $\Q\in\RR^{N\times M}$. $N$ and $M$ represent the total number of nodes and edges in the network $\Gcal$, respectively. 
+$\Z$ represents some a variable matrix, consisting of $N$ variables as columns, that is, $\Z = \left [\z^{(1)}, \z^{(2)}, ..., \z^{(N)} \right ]$. $\Q$ is the given auxiliary matrix, which has $M$ columns and every column has two non-zero values: $1$ and $-1$. Note that $\lrnorm{\cdot}_{1,p}$ is denoted by $\ell_{1,p}$ norm. Given a matrix $\U\in\RR^{d_2 \times M}$, it is defined by 
+\begin{align}
+\nonumber
+\lrnorm{\U}_{1,p} := \sum_{m=1}^M \lrnorm{\U_{:, m}}_p.
+\end{align}
 
-
-
+\begin{figure}[!t]
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\centering 
+\includegraphics[width=0.97\columnwidth]{figs/figs_Q_matrix}
+\caption{$\Q$ matrix.}
+\label{figure_xxx}
+\end{figure}
 
 
 \begin{figure}[!t]
@@ -133,27 +144,38 @@ The formulation equals to the following problem.
 \end{figure}
 
 
+\subsection{Optimization via Alternative method}
 
-
-\subsection{Federated Optimization Methods}
-
-The update of local model $\x^{(n)}_{t+1}$ is obtained by solving the following problem.
 \begin{align}
-\min_{\substack{\x^{(n)}\in\RR^{d}}} f_n\lrincir{\x^{(n)}; \A_n} + \lambda \sum_{\substack{e_{n,j} \in \Ecal,\\ \forall j\in\Ncal}} \lrnorm{\z^{(n)} - \z^{(j)}},
-\end{align} subject to:
-\begin{align}
-\x^{(n)} = \M\x + \N \z^{(n)}.
-\end{align} By using SGD \cite{xx}, the local model is updated by performing the following problem.
-\begin{align}
-\min_{\substack{\x^{(n)}\in\RR^{d}}} \lrangle{\g_t^{(n)}, \x^{(n)}-\x_t} + \lambda \sum_{\substack{e_{n,j} \in \Ecal,\\ \forall j\in\Ncal}} \lrnorm{\z^{(n)} - \z^{(j)}} + \frac{1}{2\eta}\lrnorm{\x^{(n)} - \x_t}^2,
+\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\x^{(n)}; \D_n} + \lambda \lrnorm{\Z\Q}_{1,p},
 \end{align} subject to:
 \begin{align}
 \x^{(n)} = \M\x + \N \z^{(n)}.
 \end{align}
+The variable $\{\x^{(1)}, \x^{(2)}, ..., \x^{(N)}\}$ is obtained by alternatively optimizing $\x$ and $\{\z^{(1)}, \z^{(2)}, ..., \z^{(N)}\}$.
+
+\textbf{Optimizing $\x$ by given $\{\z^{(1)}, \z^{(2)}, ..., \z^{(N)}\}$.} $\x$ is optimized by solving the following problem.
+\begin{align}
+\min_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\M\x + \N \z^{(n)}; \D_n}.
+\end{align} By using the data-driven stochastic optimization method \cite{dd}, we need to perform the following problem to obtain $\x_{t+1}$, iteratively.
+\begin{align}
+\nonumber
+& \x_{t+1} \\ \nonumber
+= & \argmin_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta}\lrnorm{\x - \x_t}^2,
+\end{align} where $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x_t + \N \z_t^{(n)}$ by using data drawn from the local dataset $\D_n$.
+
+
+\textbf{Optimizing $\{\z^{(1)}, \z^{(2)}, ..., \z^{(N)}\}$ by given $\x$.}
 
 
 
 
+\begin{align}
+\min_{\substack{\{\z^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\M\x + \N \z^{(n)}; \D_n} + \lambda \lrnorm{\Z\Q}_{1,p}.
+\end{align}  By using the data-driven stochastic optimization method \cite{dd}, we need to perform the following problem.
+\begin{align}
+\min_{\substack{\{\z^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N \lrangle{\N^{-1} \g_t^{(n)}, \z^{(n)}} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta}\lrnorm{\Z - \Z_t}_F^2.
+\end{align} $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x_t + \N \z^{(n)}$ by using stochastic data  drawn from the local dataset $\D_n$. 
 
 
 
