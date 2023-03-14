@@ -105,7 +105,7 @@ Based on similarity under those space, the similarity network $\Gcal = \{\Ncal, 
 \subsection{Final Formulation}
 Given the mapping matrix $\M\in\RR^{d\times d_1}$ and $\N\in\RR^{d\times d_2}$, the objective problem is formulated by
 \begin{align}
-\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n\in\Ncal} f_n\lrincir{\x^{(n)}; \D_n} + \lambda \sum_{\substack{e_{i,j} \in \Ecal,\\ \forall i,j\in\Ncal}} \lrnorm{\z^{(i)} - \z^{(j)}}_p,
+\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n\in\Ncal} f_n\lrincir{\x^{(n)}; \Dcal_n} + \lambda \sum_{\substack{e_{i,j} \in \Ecal,\\ \forall i,j\in\Ncal}} \lrnorm{\z^{(i)} - \z^{(j)}}_p,
 \end{align} subject to:
 \begin{align}
 \x^{(n)} = \M\x + \N \z^{(n)},{~~~~}\forall n\in\Ncal, \x\in\RR^{d_1}, \z^{(n)}\in\RR^{d_2}.
@@ -113,7 +113,7 @@ Given the mapping matrix $\M\in\RR^{d\times d_1}$ and $\N\in\RR^{d\times d_2}$, 
 
 The formulation can be equally transformed as follows.
 \begin{align}
-\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\x^{(n)}; \D_n} + \lambda \lrnorm{\Z\Q}_{1,p},
+\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\x^{(n)}; \Dcal_n} + \lambda \lrnorm{\Z\Q}_{1,p},
 \end{align} subject to:
 \begin{align}
 \x^{(n)} = \M\x + \N \z^{(n)}.
@@ -147,45 +147,88 @@ $\Z$ represents some a variable matrix, consisting of $N$ variables as columns, 
 \subsection{Optimization via Alternative method}
 
 \begin{align}
-\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\x^{(n)}; \D_n} + \lambda \lrnorm{\Z\Q}_{1,p},
+\min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\x^{(n)}; \Dcal_n} + \lambda \lrnorm{\Z\Q}_{1,p},
 \end{align} subject to:
 \begin{align}
 \x^{(n)} = \M\x + \N \z^{(n)}.
 \end{align}
 The variable $\{\x^{(1)}, \x^{(2)}, ..., \x^{(N)}\}$ is obtained by alternatively optimizing $\x$ and $\{\z^{(1)}, \z^{(2)}, ..., \z^{(N)}\}$.
 
-\textbf{Optimizing $\x$ by given $\{\z^{(1)}, \z^{(2)}, ..., \z^{(N)}\}$.} $\x$ is optimized by solving the following problem.
+\textbf{Optimizing $\x$ by given $\Z$.} $\x$ is optimized by solving the following problem.
 \begin{align}
-\min_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\M\x + \N \z^{(n)}; \D_n}.
-\end{align} By using the data-driven stochastic optimization method \cite{dd}, we need to perform the following problem to obtain $\x_{t+1}$, iteratively.
+\min_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\M\x + \N \z^{(n)}; \Dcal_n}.
+\end{align} By using the data-driven stochastic optimization method \cite{dd}, we need to perform the following problem to obtain $\x$, iteratively.
 \begin{align}
 \nonumber
-& \x_{t+1} \\ \nonumber
-= & \argmin_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta}\lrnorm{\x - \x_t}^2,
-\end{align} where $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x_t + \N \z_t^{(n)}$ by using data drawn from the local dataset $\D_n$.
+\min_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta}\lrnorm{\x - \x_t}^2,
+\end{align} where $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x + \N \z_t^{(n)}$ by using data drawn from the local dataset $\Dcal_n$.
 
 
-\textbf{Optimizing $\{\z^{(1)}, \z^{(2)}, ..., \z^{(N)}\}$ by given $\x$.}
-
-
-
+\textbf{Optimizing $\Z$ by given $\x$.}
 
 \begin{align}
-\min_{\substack{\{\z^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\M\x + \N \z^{(n)}; \D_n} + \lambda \lrnorm{\Z\Q}_{1,p}.
+\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\sum_{n=1}^N f_n\lrincir{\M\x + \N \z^{(n)}; \Dcal_n} + \lambda \lrnorm{\Z\Q}_{1,p}.
 \end{align}  By using the data-driven stochastic optimization method \cite{dd}, we need to perform the following problem.
 \begin{align}
-\min_{\substack{\{\z^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n=1}^N \lrangle{\N^{-1} \g_t^{(n)}, \z^{(n)}} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta}\lrnorm{\Z - \Z_t}_F^2.
-\end{align} $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x_t + \N \z^{(n)}$ by using stochastic data  drawn from the local dataset $\D_n$. 
-
-
-
+\nonumber
+\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\N^{-1} \g_t^{(n)}, \z^{(n)}} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta}\lrnorm{\Z - \Z_t}_F^2.
+\end{align} $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x_t + \N \z^{(n)}$ by using stochastic data  drawn from the local dataset $\Dcal_n$. Suppose $\G_t = \left [ \g_t^{(1)}, \g_t^{(2)}, ..., \g_t^{(N)} \right ]$, $\Z$ is optimized by performing the following problem.
+\begin{align}
+\nonumber
+\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\1_d^\top\lrincir{\G_t \odot \Z}\1_N + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta}\lrnorm{\Z - \Z_t}_F^2.
+\end{align}
 
 \textbf{On client.}  
+
+\begin{algorithm}[!t]
+    \caption{Compute local stochastic gradient at the $n$-th client for the $t+1$-th iteration.}
+    \label{algo_xxx}
+    \begin{algorithmic}[1]
+        %\Require The number of total iterations $T$, and the initial parameter $\x_1$.
+        %\algotext{\textbf{On the $n$-th client for the $t+1$-th iteration:}}
+        \State Receive the parameter $\y_t := \M\x_t + \N\z_t^{(n)}$ from the server.
+        \State Randomly sample an instance $\a\sim\Dcal_n$, and compute the stochastic gradient $\g^{(n)}_t = \nabla f(\y;\a)$.
+        \State Send $\g^{(n)}_t$ to the server.
+    \end{algorithmic}
+\end{algorithm} 
+
+
+
 
 
 \textbf{On server.}
 
+\begin{algorithm}[!t]
+    \caption{Training of personalized models on the server.}
+    \label{algo_xxx}
+    \begin{algorithmic}[1]
+        \Require The number of total iterations $T$, and the initial parameter $\x_1$.
+        %\algotext{\textbf{On the server:}}
+        \State Deliver the parameter $\y_1 = \M\x_1 + \N\z_1^{(n)}$ to all client $n$ with $n\in\{1,2, ..., N\}$.
+        \For {$t=1,2, ..., T$}
+            \State Collect stochastic gradient $\G_t = \left [ \g_t^{(1)}, \g_t^{(2)}, ..., \g_t^{(N)} \right ]$ from all client $n$ with $n\in\{1,2, ..., N\}$..
+            \State Update the global parameter $\x$ by performing:
+            $$ \x_{t+1} = \argmin_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta}\lrnorm{\x - \x_t}^2.$$
+            \State Update the personalized parameter $\Z$ by performing:
+            \begin{align}
+            \nonumber
+            &\Z_{t+1} \\ \nonumber
+            = & \argmin_{\substack{\Z\in\RR^{d_2\times N}}} \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta}\lrnorm{\Z - \Z_t}_F^2.
+            \end{align}
+            \State Deliver the parameter $\y_{t+1} = \M\x_{t+1} + \N\z_{t+1}^{(n)}$ to every client.
+        \EndFor
+        \Return $\x_{T+1}^{(n)} = \M\x_{T+1} + \N\z_{T+1}^{(n)}$ with $n\in\{1,2, ..., N\}$.
+      \end{algorithmic}
+\end{algorithm} 
+
+
+
 \section{Communication Efficient Training}
+
+
+
+
+
 
 
 
