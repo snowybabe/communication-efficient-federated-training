@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.3.8)  15 MAR 2023 20:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.3.8)  15 MAR 2023 22:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -565,6 +565,9 @@ LaTeX Warning: Label `figure_xxx' multiply defined.
 LaTeX Warning: Label `figure_xxx' multiply defined.
 
 
+LaTeX Warning: Label `figure_xxx' multiply defined.
+
+
 LaTeX Warning: Label `algo_xxx' multiply defined.
 
 
@@ -684,7 +687,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 LaTeX Warning: Citation `dd' on page 1 undefined on input line 92.
 
-<figs/figs_networkG.pdf, id=52, 469.26375pt x 751.85997pt>
+<figs/figs_networkG.pdf, id=56, 469.26375pt x 751.85997pt>
 File: figs/figs_networkG.pdf Graphic file (type pdf)
 <use figs/figs_networkG.pdf>
 Package pdftex.def Info: figs/figs_networkG.pdf  used on input line 98.
@@ -696,224 +699,238 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.122 \begin{align}
+l.124 \begin{align}
                     <./figs/figs_networkG.pdf>]
-<figs/figs_Q_matrix.pdf, id=93, 450.53218pt x 337.76709pt>
+<figs/figs_Q_matrix.pdf, id=95, 450.53218pt x 337.76709pt>
 File: figs/figs_Q_matrix.pdf Graphic file (type pdf)
 <use figs/figs_Q_matrix.pdf>
-Package pdftex.def Info: figs/figs_Q_matrix.pdf  used on input line 131.
+Package pdftex.def Info: figs/figs_Q_matrix.pdf  used on input line 133.
 (pdftex.def)             Requested size: 244.4403pt x 183.26251pt.
-<figs/figs_MNmatrix.pdf, id=94, 637.59102pt x 634.20274pt>
+<figs/figs_MNmatrix.pdf, id=96, 637.59102pt x 634.20274pt>
 File: figs/figs_MNmatrix.pdf Graphic file (type pdf)
 <use figs/figs_MNmatrix.pdf>
-Package pdftex.def Info: figs/figs_MNmatrix.pdf  used on input line 141.
+Package pdftex.def Info: figs/figs_MNmatrix.pdf  used on input line 143.
 (pdftex.def)             Requested size: 244.4403pt x 243.13818pt.
 
 
-LaTeX Warning: Citation `dd' on page 2 undefined on input line 160.
+LaTeX Warning: Citation `dd' on page 2 undefined on input line 162.
 
 
-LaTeX Warning: Citation `dd' on page 2 undefined on input line 171.
+LaTeX Warning: Citation `dd' on page 2 undefined on input line 173.
 
 
-Overfull \hbox (22.85255pt too wide) detected at line 175
+Overfull \hbox (22.85255pt too wide) detected at line 177
 []
  []
 
 
-Overfull \hbox (2.39876pt too wide) detected at line 179
+Overfull \hbox (2.39876pt too wide) detected at line 181
 []
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!htbp') on input line 183.
+               Default added (so using `!htbp') on input line 185.
 
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 184.
+put line 186.
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!htbp') on input line 201.
+               Default added (so using `!htbp') on input line 203.
 
 
-Overfull \hbox (19.71819pt too wide) detected at line 217
+Overfull \hbox (19.71819pt too wide) detected at line 219
 []
  []
 
+<figs/figs_workflow.pdf, id=97, 1084.92351pt x 312.82172pt>
+File: figs/figs_workflow.pdf Graphic file (type pdf)
+<use figs/figs_workflow.pdf>
+Package pdftex.def Info: figs/figs_workflow.pdf  used on input line 233.
+(pdftex.def)             Requested size: 498.95892pt x 143.86632pt.
 [2pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.232 
+l.248 
       pdfTeX warning (ext4): destination with the same identifier (name{figure.
 3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.232 
+l.248 
        <./figs/figs_Q_matrix.pdf> <./figs/figs_MNmatrix.pdf>]
-<figs/figure_intro_gradient_clustering_without_clustering.pdf, id=133, 269.6619
+<figs/figure_intro_gradient_clustering_without_clustering.pdf, id=136, 269.6619
 7pt x 42.09598pt>
 File: figs/figure_intro_gradient_clustering_without_clustering.pdf Graphic file
  (type pdf)
 <use figs/figure_intro_gradient_clustering_without_clustering.pdf>
 Package pdftex.def Info: figs/figure_intro_gradient_clustering_without_clusteri
-ng.pdf  used on input line 237.
+ng.pdf  used on input line 253.
 (pdftex.def)             Requested size: 120.95892pt x 18.88261pt.
-<figs/figure_intro_gradient_without_clustering_details.pdf, id=134, 804.66307pt
+<figs/figure_intro_gradient_without_clustering_details.pdf, id=137, 804.66307pt
  x 266.53146pt>
 File: figs/figure_intro_gradient_without_clustering_details.pdf Graphic file (t
 ype pdf)
 <use figs/figure_intro_gradient_without_clustering_details.pdf>
 Package pdftex.def Info: figs/figure_intro_gradient_without_clustering_details.
-pdf  used on input line 238.
+pdf  used on input line 254.
 (pdftex.def)             Requested size: 226.79846pt x 75.12039pt.
-<figs/figure_intro_gradient_clustering_with_clustering.pdf, id=135, 271.1723pt 
+<figs/figure_intro_gradient_clustering_with_clustering.pdf, id=138, 271.1723pt 
 x 43.56265pt>
 File: figs/figure_intro_gradient_clustering_with_clustering.pdf Graphic file (t
 ype pdf)
 <use figs/figure_intro_gradient_clustering_with_clustering.pdf>
 Package pdftex.def Info: figs/figure_intro_gradient_clustering_with_clustering.
-pdf  used on input line 239.
+pdf  used on input line 255.
 (pdftex.def)             Requested size: 120.95892pt x 19.4315pt.
-<figs/figure_intro_gradient_with_clustering_details.pdf, id=136, 885.56052pt x 
+<figs/figure_intro_gradient_with_clustering_details.pdf, id=139, 885.56052pt x 
 206.57677pt>
 File: figs/figure_intro_gradient_with_clustering_details.pdf Graphic file (type
  pdf)
 <use figs/figure_intro_gradient_with_clustering_details.pdf>
 Package pdftex.def Info: figs/figure_intro_gradient_with_clustering_details.pdf
-  used on input line 240.
+  used on input line 256.
 (pdftex.def)             Requested size: 246.95892pt x 57.60783pt.
 
-Overfull \hbox (11.11212pt too wide) detected at line 253
+Overfull \hbox (11.11212pt too wide) detected at line 269
 []
  []
 
-[3pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) 
-has been already used, duplicate ignored
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3pdfTeX warning (ext4): destination with the same identifier (name{figure.4})
+ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.272 
-       <./figs/figure_intro_gradient_clustering_without_clustering.pdf> <./figs
-/figure_intro_gradient_without_clustering_details.pdf> <./figs/figure_intro_gra
-dient_clustering_with_clustering.pdf> <./figs/figure_intro_gradient_with_cluste
-ring_details.pdf>]
+l.269 \end{align}
+                   Here, $\g^{(n)}_t$ is a stochastic gradient, which is obt...
+pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.269 \end{align}
+                   Here, $\g^{(n)}_t$ is a stochastic gradient, which is obt...
+ <./figs/figs_workflow.pdf> <./figs/figure_intro_gradient_clustering_without_cl
+ustering.pdf> <./figs/figure_intro_gradient_without_clustering_details.pdf> <./
+figs/figure_intro_gradient_clustering_with_clustering.pdf> <./figs/figure_intro
+_gradient_with_clustering_details.pdf>]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!tbp') on input line 306.
+               Default added (so using `!tbp') on input line 322.
 
-<figs/figure_illustrative_communication_efficient_clustering_1.pdf, id=203, 358
+<figs/figure_illustrative_communication_efficient_clustering_1.pdf, id=240, 358
 .63734pt x 121.91016pt>
 File: figs/figure_illustrative_communication_efficient_clustering_1.pdf Graphic
  file (type pdf)
 <use figs/figure_illustrative_communication_efficient_clustering_1.pdf>
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
-ering_1.pdf  used on input line 310.
+ering_1.pdf  used on input line 326.
 (pdftex.def)             Requested size: 118.4403pt x 40.26022pt.
-<figs/figure_illustrative_communication_efficient_clustering_2.pdf, id=204, 360
+<figs/figure_illustrative_communication_efficient_clustering_2.pdf, id=241, 360
 .09862pt x 121.7104pt>
 File: figs/figure_illustrative_communication_efficient_clustering_2.pdf Graphic
  file (type pdf)
 <use figs/figure_illustrative_communication_efficient_clustering_2.pdf>
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
-ering_2.pdf  used on input line 311.
+ering_2.pdf  used on input line 327.
 (pdftex.def)             Requested size: 118.4403pt x 40.03082pt.
-<figs/figure_illustrative_communication_efficient_clustering_3.pdf, id=205, 360
+<figs/figure_illustrative_communication_efficient_clustering_3.pdf, id=242, 360
 .83548pt x 121.32668pt>
 File: figs/figure_illustrative_communication_efficient_clustering_3.pdf Graphic
  file (type pdf)
 <use figs/figure_illustrative_communication_efficient_clustering_3.pdf>
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
-ering_3.pdf  used on input line 312.
+ering_3.pdf  used on input line 328.
 (pdftex.def)             Requested size: 118.4403pt x 39.82317pt.
-<figs/figure_illustrative_communication_efficient_clustering_4.pdf, id=206, 360
+<figs/figure_illustrative_communication_efficient_clustering_4.pdf, id=243, 360
 .20169pt x 120.95499pt>
 File: figs/figure_illustrative_communication_efficient_clustering_4.pdf Graphic
  file (type pdf)
 <use figs/figure_illustrative_communication_efficient_clustering_4.pdf>
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
-ering_4.pdf  used on input line 313.
+ering_4.pdf  used on input line 329.
 (pdftex.def)             Requested size: 118.4403pt x 39.7713pt.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 320.
+(hyperref)                removing `math shift' on input line 336.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 320.
-
-
-Underfull \vbox (badness 1210) has occurred while \output is active []
-
+(hyperref)                removing `math shift' on input line 336.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 332.
+(hyperref)                removing `math shift' on input line 348.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 332.
+(hyperref)                removing `math shift' on input line 348.
 
-
-Overfull \hbox (31.55017pt too wide) detected at line 351
-[]
- []
-
-
-Overfull \hbox (10.17249pt too wide) detected at line 358
-[]
- []
-
-
-Overfull \hbox (8.90091pt too wide) detected at line 367
-[]
- []
-
-[4pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
+[4pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.367 \end{align}
-                  <./figs/figure_illustrative_communication_efficient_clusterin
-g_1.pdf> <./figs/figure_illustrative_communication_efficient_clustering_2.pdf> 
-<./figs/figure_illustrative_communication_efficient_clustering_3.pdf> <./figs/f
-igure_illustrative_communication_efficient_clustering_4.pdf>]
-Overfull \hbox (19.48404pt too wide) detected at line 376
+l.354 \end{align}
+                  The update of $\Z$ can be formulated by the following prob...
+ <./figs/figure_illustrative_communication_efficient_clustering_1.pdf> <./figs/
+figure_illustrative_communication_efficient_clustering_2.pdf> <./figs/figure_il
+lustrative_communication_efficient_clustering_3.pdf> <./figs/figure_illustrativ
+e_communication_efficient_clustering_4.pdf>]
+Overfull \hbox (31.55017pt too wide) detected at line 367
 []
  []
 
 
-LaTeX Warning: Citation `xx' on page 5 undefined on input line 380.
+Overfull \hbox (10.17249pt too wide) detected at line 374
+[]
+ []
 
 
-Overfull \hbox (20.56068pt too wide) detected at line 385
+Overfull \hbox (8.90091pt too wide) detected at line 383
+[]
+ []
+
+
+Overfull \hbox (19.48404pt too wide) detected at line 392
+[]
+ []
+
+
+LaTeX Warning: Citation `xx' on page 5 undefined on input line 396.
+
+
+Overfull \hbox (20.56068pt too wide) detected at line 401
 []
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!htbp') on input line 393.
+               Default added (so using `!htbp') on input line 409.
 
 
-Overfull \hbox (14.2345pt too wide) detected at line 404
+Overfull \hbox (14.2345pt too wide) detected at line 420
 []
  []
 
 
-Overfull \hbox (24.05716pt too wide) detected at line 410
+Overfull \hbox (24.05716pt too wide) detected at line 426
 []
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!htbp') on input line 418.
+               Default added (so using `!htbp') on input line 434.
 
-(./FINAL VERSION.bbl
+(./FINAL VERSION.bbl [5]
 Underfull \hbox (badness 3449) in paragraph at lines 48--50
 []\OT1/ptm/m/n/8 Wikipedia, ``Bloom fil-ter,'' [][]$https : / / en . wikipedia 
 . org / wiki / Bloom[]^^Llter$[][],
  []
 
-) [5] (./FINAL VERSION.aux)
+) [6
+
+] (./FINAL VERSION.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -921,16 +938,16 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `"FINAL VERSION".out' has not changed.
-(rerunfilecheck)             Checksum: 773A90E347F7410137B66A62917B65C6;2232.
+(rerunfilecheck)             Checksum: BF86126A9F246BF19EBC0F7FEC16DF0B;2330.
  ) 
 Here is how much of TeX's memory you used:
- 11398 strings out of 478994
- 172203 string characters out of 5858185
- 498063 words of memory out of 5000000
- 28615 multiletter control sequences out of 15000+600000
+ 11407 strings out of 478994
+ 172411 string characters out of 5858185
+ 504047 words of memory out of 5000000
+ 28622 multiletter control sequences out of 15000+600000
  446424 words of font info for 113 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 71i,17n,74p,1603b,381s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,17n,74p,1603b,477s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
 xlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texl
@@ -956,10 +973,10 @@ type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/ur
 w/times/utmb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/ut
 mbi8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
 </usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "FINAL VERSION.pdf" (5 pages, 444100 bytes).
+Output written on "FINAL VERSION.pdf" (6 pages, 547868 bytes).
 PDF statistics:
- 389 PDF objects out of 1000 (max. 8388607)
- 306 compressed objects within 4 object streams
- 51 named destinations out of 1000 (max. 500000)
- 152 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 431 PDF objects out of 1000 (max. 8388607)
+ 330 compressed objects within 4 object streams
+ 52 named destinations out of 1000 (max. 500000)
+ 165 words of extra memory for PDF output out of 10000 (max. 10000000)
 

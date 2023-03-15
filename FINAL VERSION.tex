@@ -105,9 +105,11 @@ Based on similarity under those space, the similarity network $\Gcal = \{\Ncal, 
 \subsection{Final Formulation}
 Given the mapping matrix $\M\in\RR^{d\times d_1}$ and $\N\in\RR^{d\times d_2}$, the objective problem is formulated by
 \begin{align}
+\nonumber
 \min_{\substack{\{\x^{(n)}\}_{n=1}^N}} \frac{1}{N}\sum_{n\in\Ncal} f_n\lrincir{\x^{(n)}; \Dcal_n} + \lambda \sum_{\substack{e_{i,j} \in \Ecal,\\ \forall i,j\in\Ncal}} \lrnorm{\z^{(i)} - \z^{(j)}}_p,
 \end{align} subject to:
 \begin{align}
+\nonumber
 \x^{(n)} = \M\x + \N \z^{(n)},{~~~~}\forall n\in\Ncal, \x\in\RR^{d_1}, \z^{(n)}\in\RR^{d_2}.
 \end{align} Here, $p\in\{1,2,\infty\}$. $\M$ and $\N$ has special structure, where every row of them has at most one non-zero value, and the non-zero value is $1$.  
 
@@ -220,6 +222,20 @@ The variable $\{\x^{(1)}, \x^{(2)}, ..., \x^{(N)}\}$ is obtained by alternativel
         \Return $\x_{T+1}^{(n)} = \M\x_{T+1} + \N\z_{T+1}^{(n)}$ with $n\in\{1,2, ..., N\}$.
       \end{algorithmic}
 \end{algorithm} 
+
+\subsection{Workflow}
+
+
+\begin{figure*}[!t]
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\centering 
+\includegraphics[width=1.98\columnwidth]{figs/figs_workflow}
+\caption{workflow}
+\label{figure_xxx}
+\end{figure*}
+
+
 
 
 \section{Communication Efficient Update of Model}
