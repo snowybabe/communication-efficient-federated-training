@@ -317,7 +317,9 @@ We take an example for more explanation. We conduct logistic regression on the \
 
 \section{Computation Efficient Update of Model}
 
-\textbf{Efficient update of $\x$.} When the server collects $\nabla_{t+1}^{(n)}$ from client, the sharing component $\x$ is updated by performing as follows.
+\subsection{Efficient update of $\x$} 
+
+When the server collects $\nabla_{t+1}^{(n)}$ from client, the sharing component $\x$ is updated by performing as follows.
 \begin{align}
 \nonumber
 \x_{t+1} = \argmin_{\substack{\x\in\RR^{d_1}}}  \lrangle{\frac{1}{N}\sum_{n=1}^N\M^{-1}\nabla_{t+1}^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2.
@@ -327,22 +329,109 @@ We take an example for more explanation. We conduct logistic regression on the \
 \x_{t+1} = \x_t - \eta_t \lrincir{\frac{1}{N}\sum_{n=1}^N\M^{-1}\nabla_{t+1}^{(n)}}.
 \end{align} That is, the sharing component $\x$ can be updated with low computational cost.
 
-\textbf{Efficient update of $\Z$.} 
+\subsection{Efficient update of $\Z$} 
 
+Denote 
 \begin{align}
 \nonumber
-\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
+h(\Z) :=  \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
+\end{align} The update of $\Z$ can be formulated by the following problem.
+\begin{align}
+\nonumber
+\min_{\substack{\Z\in\RR^{d_2\times N}, \W\in\RR^{d_2\times M}}} H(\Z, \W) := h(\Z) + \lambda \lrnorm{\W}_{1,p},
+\end{align} subject to:
+\begin{align}
+\nonumber
+\W = \Z\Q.
+\end{align} Denote the augmented Lagrangian multiplier of $H(\Z, \W)$ by $L(\Z, \W, \bOmega)$, and we have 
+\begin{align}
+\nonumber
+& L(\Z, \W, \bOmega) \\ \nonumber
+:= & h(\Z) + \lambda \lrnorm{\W}_{1,p} + \1_{d_2}^\top(\bOmega \odot (\W - \Z\Q))\1_M + \frac{\rho}{2}\lrnorm{\W - \Z\Q}_F^2.
+\end{align} 
+
+\textbf{Update of $\Z$.} Given $\W_k$ and $\bOmega_k$, $\Z_{k+1}$ is obtained by performing the following problem.
+\begin{align}
+\nonumber
+& \Z_{k+1}  = \argmin_{\Z\in\RR^{d_2\times N}} L(\Z, \W_k, \bOmega_k) & \\ \nonumber
+= & \argmin_{\Z\in\RR^{d_2\times N}} h(\Z) - \1_{d_2}^\top(\bOmega_k \odot  (\Z\Q))\1_M + \frac{\rho}{2}\lrnorm{\W_k - \Z\Q}_F^2.
+\end{align} Since it is unconstrained optimization problem, we can obtain $\Z_{k+1}$ as follows.
+\begin{align}
+\nonumber
+\frac{\G_t}{N} + \frac{\Z_{k+1} - \Z_t}{\eta_t} -\bOmega_k\Q^\top + \rho (\Z_{k+1}\Q - \W_k)\Q^\top = \0
+\end{align} That is, we have 
+\begin{align}
+\nonumber
+& \Z_{k+1} \\ \nonumber
+= & \left [ \eta_t\lrincir{\bOmega_k\Q^\top-\frac{\G_t}{N}+\rho\W_k\Q^\top}+\Z_t \right ]\lrincir{\I_N+\eta_t\rho\Q\Q^\top}^{-1}.
 \end{align}
 
+\textbf{Update of $\W$.} Given $\Z_{k+1}$ and $\bOmega_k$, $\W_{k+1}$ is obtained by performing the following problem.
+\begin{align}
+\nonumber
+& \W_{k+1} = \argmin_{\W\in\RR^{d_2 \times M}} L(\Z_{k+1}, \W, \bOmega_k) \\ \nonumber
+= & \argmin_{\W\in\RR^{d_2 \times M}} \lambda \lrnorm{\W}_{1,p} + \1_{d_2}^\top(\bOmega_k \odot \W)\1_M + \frac{\rho}{2}\lrnorm{\W - \Z_{k+1}\Q}_F^2 \\ \nonumber
+= & \argmin_{\W\in\RR^{d_2 \times M}} \lambda \lrnorm{\W}_{1,p} + \frac{\rho}{2}\lrnorm{\W - \lrincir{\Z_{k+1}\Q - \frac{1}{\rho}\bOmega_k}}_F^2 \\ \nonumber
+= & \Prox_{\frac{\rho}{\lambda}, \lrnorm{\cdot}_{1,p}}\lrincir{\Z_{k+1}\Q - \frac{1}{\rho}\bOmega_k}.
+\end{align}  Here, $\Prox$ represents the \textit{proximal operator}, which is defined by 
+\begin{align}
+\nonumber
+\Prox_{\nu, \phi}(\a) := \argmin_{\b} \phi(\b) + \frac{\nu}{2}\lrnorm{\b - \a}^2.
+\end{align} Recall that $\lrnorm{\cdot}_{1,p}$ is the sum of norms, its proximal operator has a closed form \cite{xx}. Specifically, for the $m$-th column with $m\in\{1,2, ..., M\}$ of $\W_{k+1}$ is obtained by performing:
+\begin{align}
+\nonumber
+& [\W_{k+1}]_{:,m} = \left [ \Prox_{\frac{\rho}{\lambda}, \lrnorm{\cdot}_{1,p}}\lrincir{\Z_{k+1}\Q - \frac{1}{\rho}\bOmega_k} \right ]_{:,m} \\ \nonumber
+=& \lrincir{1\mathrm{-} \frac{1}{\lrnorm{\frac{\rho}{\lambda} \Z_{k+1}\Q_{:, m} \mathrm{-} \frac{1}{\lambda}[\bOmega_k]{:, m}}_q}}_\mathrm{+} \lrincir{\Z_{k+1}\Q_{:, m} \mathrm{-} \frac{1}{\rho}[\bOmega_k]_{:, m}},
+\end{align} where $[\A]_{:,m}$ represents the $m$-th column of $\A$, and $\lrnorm{\cdot}_q$ is the dual norm of $\lrnorm{\cdot}_p$ such that $\frac{1}{p}+\frac{1}{q} = 1$.
 
+\textbf{Update of $\bOmega$.} Given $\Z_{k+1}$ and $\W_{k+1}$, $\bOmega_{k+1}$ is obtained by performing the following problem.
+\begin{align}
+\nonumber
+\bOmega_{k+1}  = \bOmega_k + \rho \lrincir{\W_{k+1} - \Z_{k+1}\Q}.
+\end{align} 
 
+\begin{algorithm}[!]
+    \caption{Computation Efficient Update of $\Z$.}
+    \label{algo_efficient_update_Z}
+    \begin{algorithmic}[1]
+        \Require The number of total iterations $K$, a positive $\rho$, and the initial model $\Z_t$.
+           \For {$k=0,1,2, ..., K-1$}
+            \State Update $\Z_{k+1}$ by performing:
+            \begin{align}
+            \nonumber
+            & \Z_{k+1} \\ \nonumber
+            = & \left [ \eta_t\lrincir{\bOmega_k\Q^\top\mathrm{-}\frac{\G_t}{N}\mathrm{+}\rho\W_k\Q^\top}\mathrm{+}\Z_t \right ]\lrincir{\I_N+\eta_t\rho\Q\Q^\top}^{-1}.
+            \end{align}
+            \State Update the $m$-th column of $\W_{k+1}$, that is $[\W_{k+1}]_{:,m}$ by performing:
+            \begin{align}
+	   \nonumber
+	   & [\W_{k+1}]_{:,m} \\ \nonumber
+	   \mathrm{=}& \left [1\mathrm{-} \frac{1}{\lrnorm{\frac{\rho}{\lambda} 		          \Z_{k+1}\Q_{:, m} \mathrm{-} \frac{1}{\lambda}[\bOmega_k]{:, m}}_q}\right]_\mathrm{+} \left[ \Z_{k+1}\Q_{:, m} \mathrm{-} \frac{[\bOmega_k]_{:, m}}{\rho}\right],
+	\end{align} 
+           \State Update $\bOmega_{k+1}$ by performing:
+            $$\bOmega_{k+1}  = \bOmega_k + \rho \lrincir{\W_{k+1} - \Z_{k+1}\Q}.$$
+            \State \EndFor
+        \Return $\Z_K$.
+      \end{algorithmic}
+\end{algorithm}
 
-
-
-
-
-
-
+\begin{algorithm}[!]
+    \caption{Computation Efficient Training of personalized models on the server.}
+    \label{algo_xxx}
+    \begin{algorithmic}[1]
+        \Require The number of total iterations $T$, and the initial parameter $\x_1$.
+        %\algotext{\textbf{On the server:}}
+        \State Deliver the parameter $\y_1^{(n)} = \M\x_1 + \N\z_1^{(n)}$ to all client $n$ with $n\in\{1,2, ..., N\}$.
+        \For {$t=1,2, ..., T$}
+            \State Collect stochastic gradient $\G_t = \left [ \g_t^{(1)}, \g_t^{(2)}, ..., \g_t^{(N)} \right ]$ from all client $n$ with $n\in\{1,2, ..., N\}$.
+            \State Update the global parameter $\x$ by performing:
+            $$ \x_{t+1} = \x_t - \eta_t \lrincir{\frac{1}{N}\sum_{n=1}^N\M^{-1}\nabla_{t+1}^{(n)}}. $$
+           \State Update the personalized model $\Z_{t+1}$ according to Algorithm \ref{algo_efficient_update_Z}.
+            \State Deliver the parameter $\y_{t+1}^{(n)} = \M\x_{t+1} + \N\z_{t+1}^{(n)}$ to every client.
+        \EndFor
+        \Return $\x_{T+1}^{(n)} = \M\x_{T+1} + \N\z_{T+1}^{(n)}$ with $n\in\{1,2, ..., N\}$.
+      \end{algorithmic}
+\end{algorithm} 
 
 
 

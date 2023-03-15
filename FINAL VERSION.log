@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.3.8)  15 MAR 2023 15:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.3.8)  15 MAR 2023 20:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -684,7 +684,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 LaTeX Warning: Citation `dd' on page 1 undefined on input line 92.
 
-<figs/figs_networkG.pdf, id=44, 469.26375pt x 751.85997pt>
+<figs/figs_networkG.pdf, id=52, 469.26375pt x 751.85997pt>
 File: figs/figs_networkG.pdf Graphic file (type pdf)
 <use figs/figs_networkG.pdf>
 Package pdftex.def Info: figs/figs_networkG.pdf  used on input line 98.
@@ -698,12 +698,12 @@ s been already used, duplicate ignored
                                                   
 l.122 \begin{align}
                     <./figs/figs_networkG.pdf>]
-<figs/figs_Q_matrix.pdf, id=85, 450.53218pt x 337.76709pt>
+<figs/figs_Q_matrix.pdf, id=93, 450.53218pt x 337.76709pt>
 File: figs/figs_Q_matrix.pdf Graphic file (type pdf)
 <use figs/figs_Q_matrix.pdf>
 Package pdftex.def Info: figs/figs_Q_matrix.pdf  used on input line 131.
 (pdftex.def)             Requested size: 244.4403pt x 183.26251pt.
-<figs/figs_MNmatrix.pdf, id=86, 637.59102pt x 634.20274pt>
+<figs/figs_MNmatrix.pdf, id=94, 637.59102pt x 634.20274pt>
 File: figs/figs_MNmatrix.pdf Graphic file (type pdf)
 <use figs/figs_MNmatrix.pdf>
 Package pdftex.def Info: figs/figs_MNmatrix.pdf  used on input line 141.
@@ -751,7 +751,7 @@ l.232
                                                   
 l.232 
        <./figs/figs_Q_matrix.pdf> <./figs/figs_MNmatrix.pdf>]
-<figs/figure_intro_gradient_clustering_without_clustering.pdf, id=125, 269.6619
+<figs/figure_intro_gradient_clustering_without_clustering.pdf, id=133, 269.6619
 7pt x 42.09598pt>
 File: figs/figure_intro_gradient_clustering_without_clustering.pdf Graphic file
  (type pdf)
@@ -759,7 +759,7 @@ File: figs/figure_intro_gradient_clustering_without_clustering.pdf Graphic file
 Package pdftex.def Info: figs/figure_intro_gradient_clustering_without_clusteri
 ng.pdf  used on input line 237.
 (pdftex.def)             Requested size: 120.95892pt x 18.88261pt.
-<figs/figure_intro_gradient_without_clustering_details.pdf, id=126, 804.66307pt
+<figs/figure_intro_gradient_without_clustering_details.pdf, id=134, 804.66307pt
  x 266.53146pt>
 File: figs/figure_intro_gradient_without_clustering_details.pdf Graphic file (t
 ype pdf)
@@ -767,7 +767,7 @@ ype pdf)
 Package pdftex.def Info: figs/figure_intro_gradient_without_clustering_details.
 pdf  used on input line 238.
 (pdftex.def)             Requested size: 226.79846pt x 75.12039pt.
-<figs/figure_intro_gradient_clustering_with_clustering.pdf, id=127, 271.1723pt 
+<figs/figure_intro_gradient_clustering_with_clustering.pdf, id=135, 271.1723pt 
 x 43.56265pt>
 File: figs/figure_intro_gradient_clustering_with_clustering.pdf Graphic file (t
 ype pdf)
@@ -775,7 +775,7 @@ ype pdf)
 Package pdftex.def Info: figs/figure_intro_gradient_clustering_with_clustering.
 pdf  used on input line 239.
 (pdftex.def)             Requested size: 120.95892pt x 19.4315pt.
-<figs/figure_intro_gradient_with_clustering_details.pdf, id=128, 885.56052pt x 
+<figs/figure_intro_gradient_with_clustering_details.pdf, id=136, 885.56052pt x 
 206.57677pt>
 File: figs/figure_intro_gradient_with_clustering_details.pdf Graphic file (type
  pdf)
@@ -801,7 +801,7 @@ ring_details.pdf>]
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `!tbp') on input line 306.
 
-<figs/figure_illustrative_communication_efficient_clustering_1.pdf, id=195, 358
+<figs/figure_illustrative_communication_efficient_clustering_1.pdf, id=203, 358
 .63734pt x 121.91016pt>
 File: figs/figure_illustrative_communication_efficient_clustering_1.pdf Graphic
  file (type pdf)
@@ -809,7 +809,7 @@ File: figs/figure_illustrative_communication_efficient_clustering_1.pdf Graphic
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
 ering_1.pdf  used on input line 310.
 (pdftex.def)             Requested size: 118.4403pt x 40.26022pt.
-<figs/figure_illustrative_communication_efficient_clustering_2.pdf, id=196, 360
+<figs/figure_illustrative_communication_efficient_clustering_2.pdf, id=204, 360
 .09862pt x 121.7104pt>
 File: figs/figure_illustrative_communication_efficient_clustering_2.pdf Graphic
  file (type pdf)
@@ -817,7 +817,7 @@ File: figs/figure_illustrative_communication_efficient_clustering_2.pdf Graphic
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
 ering_2.pdf  used on input line 311.
 (pdftex.def)             Requested size: 118.4403pt x 40.03082pt.
-<figs/figure_illustrative_communication_efficient_clustering_3.pdf, id=197, 360
+<figs/figure_illustrative_communication_efficient_clustering_3.pdf, id=205, 360
 .83548pt x 121.32668pt>
 File: figs/figure_illustrative_communication_efficient_clustering_3.pdf Graphic
  file (type pdf)
@@ -825,7 +825,7 @@ File: figs/figure_illustrative_communication_efficient_clustering_3.pdf Graphic
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
 ering_3.pdf  used on input line 312.
 (pdftex.def)             Requested size: 118.4403pt x 39.82317pt.
-<figs/figure_illustrative_communication_efficient_clustering_4.pdf, id=198, 360
+<figs/figure_illustrative_communication_efficient_clustering_4.pdf, id=206, 360
 .20169pt x 120.95499pt>
 File: figs/figure_illustrative_communication_efficient_clustering_4.pdf Graphic
  file (type pdf)
@@ -833,22 +833,87 @@ File: figs/figure_illustrative_communication_efficient_clustering_4.pdf Graphic
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
 ering_4.pdf  used on input line 313.
 (pdftex.def)             Requested size: 118.4403pt x 39.7713pt.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 320.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 320.
+
+
+Underfull \vbox (badness 1210) has occurred while \output is active []
+
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 332.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 332.
+
+
+Overfull \hbox (31.55017pt too wide) detected at line 351
+[]
+ []
+
+
+Overfull \hbox (10.17249pt too wide) detected at line 358
+[]
+ []
+
+
+Overfull \hbox (8.90091pt too wide) detected at line 367
+[]
+ []
+
+[4pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.367 \end{align}
+                  <./figs/figure_illustrative_communication_efficient_clusterin
+g_1.pdf> <./figs/figure_illustrative_communication_efficient_clustering_2.pdf> 
+<./figs/figure_illustrative_communication_efficient_clustering_3.pdf> <./figs/f
+igure_illustrative_communication_efficient_clustering_4.pdf>]
+Overfull \hbox (19.48404pt too wide) detected at line 376
+[]
+ []
+
+
+LaTeX Warning: Citation `xx' on page 5 undefined on input line 380.
+
+
+Overfull \hbox (20.56068pt too wide) detected at line 385
+[]
+ []
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `!htbp') on input line 393.
+
+
+Overfull \hbox (14.2345pt too wide) detected at line 404
+[]
+ []
+
+
+Overfull \hbox (24.05716pt too wide) detected at line 410
+[]
+ []
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `!htbp') on input line 418.
+
 (./FINAL VERSION.bbl
 Underfull \hbox (badness 3449) in paragraph at lines 48--50
 []\OT1/ptm/m/n/8 Wikipedia, ``Bloom fil-ter,'' [][]$https : / / en . wikipedia 
 . org / wiki / Bloom[]^^Llter$[][],
  []
 
-) [4pdfTeX warning (ext4): destination with the same identifier (name{figure.5}
-) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.379 \end{document}
-                     <./figs/figure_illustrative_communication_efficient_cluste
-ring_1.pdf> <./figs/figure_illustrative_communication_efficient_clustering_2.pd
-f> <./figs/figure_illustrative_communication_efficient_clustering_3.pdf> <./fig
-s/figure_illustrative_communication_efficient_clustering_4.pdf>]
-(./FINAL VERSION.aux)
+) [5] (./FINAL VERSION.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -856,16 +921,16 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `"FINAL VERSION".out' has not changed.
-(rerunfilecheck)             Checksum: A7FCE3E8A2EDFD517EE337C874955BB0;1888.
+(rerunfilecheck)             Checksum: 773A90E347F7410137B66A62917B65C6;2232.
  ) 
 Here is how much of TeX's memory you used:
- 11377 strings out of 478994
- 171962 string characters out of 5858185
- 494017 words of memory out of 5000000
- 28605 multiletter control sequences out of 15000+600000
- 444594 words of font info for 107 fonts, out of 8000000 for 9000
+ 11398 strings out of 478994
+ 172203 string characters out of 5858185
+ 498063 words of memory out of 5000000
+ 28615 multiletter control sequences out of 15000+600000
+ 446424 words of font info for 113 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 71i,16n,74p,1603b,381s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,17n,74p,1603b,381s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
 xlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texl
@@ -891,10 +956,10 @@ type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/ur
 w/times/utmb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/ut
 mbi8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
 </usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "FINAL VERSION.pdf" (4 pages, 428823 bytes).
+Output written on "FINAL VERSION.pdf" (5 pages, 444100 bytes).
 PDF statistics:
- 372 PDF objects out of 1000 (max. 8388607)
- 291 compressed objects within 3 object streams
- 46 named destinations out of 1000 (max. 500000)
- 136 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 389 PDF objects out of 1000 (max. 8388607)
+ 306 compressed objects within 4 object streams
+ 51 named destinations out of 1000 (max. 500000)
+ 152 words of extra memory for PDF output out of 10000 (max. 10000000)
 
