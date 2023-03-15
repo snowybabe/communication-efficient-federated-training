@@ -160,7 +160,7 @@ The variable $\{\x^{(1)}, \x^{(2)}, ..., \x^{(N)}\}$ is obtained by alternativel
 \end{align} By using the data-driven stochastic optimization method \cite{dd}, we need to perform the following problem to obtain $\x$, iteratively.
 \begin{align}
 \nonumber
-\min_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta}\lrnorm{\x - \x_t}^2,
+\min_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2,
 \end{align} where $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x + \N \z_t^{(n)}$ by using data drawn from the local dataset $\Dcal_n$.
 
 
@@ -171,23 +171,23 @@ The variable $\{\x^{(1)}, \x^{(2)}, ..., \x^{(N)}\}$ is obtained by alternativel
 \end{align}  By using the data-driven stochastic optimization method \cite{dd}, we need to perform the following problem.
 \begin{align}
 \nonumber
-\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\N^{-1} \g_t^{(n)}, \z^{(n)}} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta}\lrnorm{\Z - \Z_t}_F^2.
+\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\N^{-1} \g_t^{(n)}, \z^{(n)}} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
 \end{align} $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x_t + \N \z^{(n)}$ by using stochastic data  drawn from the local dataset $\Dcal_n$. Suppose $\G_t = \left [ \g_t^{(1)}, \g_t^{(2)}, ..., \g_t^{(N)} \right ]$, $\Z$ is optimized by performing the following problem.
 \begin{align}
 \nonumber
-\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\1_d^\top\lrincir{\G_t \odot \Z}\1_N + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta}\lrnorm{\Z - \Z_t}_F^2.
+\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\1_d^\top\lrincir{\G_t \odot \Z}\1_N + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
 \end{align}
 
 \textbf{On client.}  
 
-\begin{algorithm}[!t]
+\begin{algorithm}[!]
     \caption{Compute local stochastic gradient at the $n$-th client for the $t+1$-th iteration.}
     \label{algo_xxx}
     \begin{algorithmic}[1]
         %\Require The number of total iterations $T$, and the initial parameter $\x_1$.
         %\algotext{\textbf{On the $n$-th client for the $t+1$-th iteration:}}
-        \State Receive the parameter $\y_t := \M\x_t + \N\z_t^{(n)}$ from the server.
-        \State Randomly sample an instance $\a\sim\Dcal_n$, and compute the stochastic gradient $\g^{(n)}_t = \nabla f(\y;\a)$.
+        \State Receive the parameter $\y_t^{(n)} := \M\x_t + \N\z_t^{(n)}$ from the server.
+        \State Randomly sample an instance $\a\sim\Dcal_n$, and compute the stochastic gradient $\g^{(n)}_t = \nabla f(\y_t^{(n)};\a)$ with $\a\sim\Dcal_n$.
         \State Send $\g^{(n)}_t$ to the server.
     \end{algorithmic}
 \end{algorithm} 
@@ -198,32 +198,149 @@ The variable $\{\x^{(1)}, \x^{(2)}, ..., \x^{(N)}\}$ is obtained by alternativel
 
 \textbf{On server.}
 
-\begin{algorithm}[!t]
+\begin{algorithm}[!]
     \caption{Training of personalized models on the server.}
     \label{algo_xxx}
     \begin{algorithmic}[1]
         \Require The number of total iterations $T$, and the initial parameter $\x_1$.
         %\algotext{\textbf{On the server:}}
-        \State Deliver the parameter $\y_1 = \M\x_1 + \N\z_1^{(n)}$ to all client $n$ with $n\in\{1,2, ..., N\}$.
+        \State Deliver the parameter $\y_1^{(n)} = \M\x_1 + \N\z_1^{(n)}$ to all client $n$ with $n\in\{1,2, ..., N\}$.
         \For {$t=1,2, ..., T$}
-            \State Collect stochastic gradient $\G_t = \left [ \g_t^{(1)}, \g_t^{(2)}, ..., \g_t^{(N)} \right ]$ from all client $n$ with $n\in\{1,2, ..., N\}$..
+            \State Collect stochastic gradient $\G_t = \left [ \g_t^{(1)}, \g_t^{(2)}, ..., \g_t^{(N)} \right ]$ from all client $n$ with $n\in\{1,2, ..., N\}$.
             \State Update the global parameter $\x$ by performing:
-            $$ \x_{t+1} = \argmin_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta}\lrnorm{\x - \x_t}^2.$$
+            $$ \x_{t+1} = \argmin_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2.$$
             \State Update the personalized parameter $\Z$ by performing:
             \begin{align}
             \nonumber
             &\Z_{t+1} \\ \nonumber
-            = & \argmin_{\substack{\Z\in\RR^{d_2\times N}}} \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta}\lrnorm{\Z - \Z_t}_F^2.
+            = & \argmin_{\substack{\Z\in\RR^{d_2\times N}}} \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
             \end{align}
-            \State Deliver the parameter $\y_{t+1} = \M\x_{t+1} + \N\z_{t+1}^{(n)}$ to every client.
+            \State Deliver the parameter $\y_{t+1}^{(n)} = \M\x_{t+1} + \N\z_{t+1}^{(n)}$ to every client.
         \EndFor
         \Return $\x_{T+1}^{(n)} = \M\x_{T+1} + \N\z_{T+1}^{(n)}$ with $n\in\{1,2, ..., N\}$.
       \end{algorithmic}
 \end{algorithm} 
 
 
+\section{Communication Efficient Update of Model}
 
-\section{Communication Efficient Training}
+Recall that stochastic gradient descent is usually used to solve a general optimization problem in the distributed setting, namely Distributed Stochastic Gradient Descent (DSGD). Since every client has to send the update of parameter $\g^{(n)}_t$ to the server, the workload of the network communication  becomes very heavy for a large number of clients. When the workload of the the network communication is heavy, the previous DSGD has to consume much time to complete the data transmission, which impairs the convergence performance of DSGD.  
+
+\subsection{Communication Efficient Regularizer}
+
+In the work, we propose a communication efficient method, which can let $\g_t^{(n)}$ be encoded by using few bits. Since the code length of $\g_t^{(n)}$ is much reduced, the communication efficiency is significantly increased. The basic idea is to induce the cluster structure of elements of $\g_t^{(n)}$ by using differential sparsity regularizer. The regularizer encourages the update of parameter $\nabla_{t+1}^{(n)}$ to own clustering structures. Figure \ref{figure_intro_gradient_clustering} presents an illustrative example. According to Figures \ref{figure_intro_gradient_clustering_without_clustering} and \ref{figure_intro_gradient_clustering_with_clustering},  we observe when the elements of $\nabla_{t+1}^{(n)}$ own clustering structures, they can be encoded by using fewer bits. Its code length can be reduced a lot. The update of parameter can be transmitted from clients  and the server efficiently. According to Figures \ref{figure_intro_gradient_without_clustering_details} and \ref{figure_intro_gradient_with_clustering_details}, our basic idea is to let the difference between the elements of $\nabla_{t+1}^{(n)}$ be sparse, which encourages the elements of $\nabla_{t+1}^{(n)}$ to have clustering structures. Comparing with the gradient quantization methods in the previous studies, the proposed method is able to find a good tradeoff between the convergence performance and the communication efficiency.  It is highlighted that the proposed method does not impair the convergence performance theoretically. 
+
+\begin{figure}[!t]
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\centering 
+\subfigure[$\nabla_{t+1}^{(n)}$  without clustering structures]{\includegraphics[width=0.48\columnwidth]{figs/figure_intro_gradient_clustering_without_clustering}\label{figure_intro_gradient_clustering_without_clustering}}
+\subfigure[Difference between elements of $\nabla_{t+1}^{(n)}$  (without clustering structures) is dense.]{\includegraphics[width=0.9\columnwidth]{figs/figure_intro_gradient_without_clustering_details}\label{figure_intro_gradient_without_clustering_details}}
+\subfigure[$\nabla_{t+1}^{(n)}$ with clustering structures]{\includegraphics[width=0.48\columnwidth]{figs/figure_intro_gradient_clustering_with_clustering}\label{figure_intro_gradient_clustering_with_clustering}}
+\subfigure[Difference between elements of $\nabla_{t+1}^{(n)}$  (with clustering structures) is \textbf{sparse}.]{\includegraphics[width=0.98\columnwidth]{figs/figure_intro_gradient_with_clustering_details}\label{figure_intro_gradient_with_clustering_details}}
+\caption{The illustrative example shows that $\nabla_{t+1}^{(n)}$ with clustering structures can be compressed by using fewer bits, and thus the code length is reduced effectively. \textbf{Our basic idea is to make the difference between  elements of $\nabla_{t+1}^{(n)}$ sparse.}}
+\label{figure_intro_gradient_clustering}
+\end{figure}
+
+To improve the communication efficiency, we propose a new method to conduct the update of the parameter, which is formulated as
+\begin{align}
+\nonumber
+\nabla_{t+1}^{(n)} = \frac{\x_t - \v}{\eta_t}, 
+\end{align} where $\v$ is obtained by performing the following problem Eq. \ref{equa_update_rule_cer}.
+\begin{align}
+\label{equa_update_rule_cer}
+\v = \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} + \underbrace{\gamma \lrnorm{\bLambda(\y - \x_t)}_1}_{\text{communication efficient regularizer}} + \frac{\lrnorm{\y - \x_t}^2}{2\eta_t}. 
+\end{align}  Here, $\g^{(n)}_t$ is a stochastic gradient, which is obtained by using the local data in the $n$-th client. The given full rank square matrix $\bLambda\in\mathbb{R}^{d\times d}$ is defined by
+\begin{align}
+\nonumber
+\bLambda := \begin{bmatrix}
+ 1&  -1&  &  & \\ 
+ &  1&  -1&  & \\ 
+ &  &   \cdots &  & \\ 
+ &  &  & 1 & -1 \\ 
+ &  &  &  & 1
+\end{bmatrix}.
+\end{align} Notice that $\bLambda$ is a full rank square matrix, whose smallest singular value, denoted by $\sigma$,  is positive, that is, $\sigma > 0$. The proposed communication efficient regularizer is an $\ell_1$ norm square. It punishes the difference between elements of $\nabla_{t+1}^{(n)}$, and encourages them  to be small or even zero. Thus, those corresponding elements of $\nabla_{t+1}^{(n)}$ are very similar or even identical. That is, the elements of $\nabla_{t+1}^{(n)}$ own clustering structures. Exploiting the clustering structures, $\x_{t+1}$ can be compressed by using few bits, and thus improves the communication efficiency in the distributed setting.
+
+We give a demo example to explain the communication efficient regularizer intuitively. Suppose the optimum of $\x\in\RR^4$ is $\x_{\ast} = (1, -1, 1, -1)\Tr$. If $\x_0 = (0,0,0,0)\Tr$, the communication efficient regularizer may update $\x$ as follows.
+\begin{align}
+\nonumber
+\x_1 = & (-1,-1,1,1)\Tr, \text{ and } \bLambda(\x_1-\x_0)= (0,-2,0,1)\Tr \\ \nonumber
+\x_2 = & (1,-1,1,1)\Tr, \text{ and } \bLambda(\x_2-\x_1) = (2,0,0,0)\Tr \\ \nonumber
+\x_3 = & (1,-1,1,-1)\Tr, \text{ and } \bLambda(\x_3-\x_2) = (0,0,2,-2)\Tr.
+\end{align} For $\x_1$, $\x_2$ and $\x_3$, there are only two different elements: `$1$' and `$-1$', which shows that there are two clusters among those elements, and their cluster centers are `$1$' and `$-1$', respectively. Meanwhile, the difference of elements between successive update, e.g., $\bLambda(\x_2-\x_1)$, contains as least two $0$s. It explains our basic idea, that is, to let the difference between elements of successive update, i.e., $\bLambda(\x^{(n)}_{t+1}-\x_t)$, be sparse. 
+ 
+Note that there is a trade-off between the accuracy and communication efficiency. When elements of a gradient are partitioned into more clusters, the higher accuracy of the gradient is guaranteed. Meanwhile, the gradient has to be encoded by using more bytes, thus leading to the decrease of the communication efficiency.  
+
+We take an example for more explanation. We conduct logistic regression on the \textit{covtype} dataset. $\nabla_{t+1}^{(n)}$ has $55$ elements. As illustrated in Figure \ref{figure_illustrative_communication_efficient_clustering}, the x-axis represents the elements, and the y-axis represents values of an element. When the basic gradient descent method, that is $\gamma = 0$. is used to yield $\nabla_{t+1}^{(n)}$, the top-left sub-figure shows that its elements are usually different. But, when the communication efficient regularizer is used to update $\nabla_{t+1}^{(n)}$, the top-right sub-figure shows that its elements can be partitioned into multiple clusters.  When k-means clustering is furthermore conducted on those elements, the bottom-left and bottom-right sub-figures show that those elements can be represented with $k=4$ and $k=3$ cluster centers, respectively.  
+
+\begin{algorithm}[!t]
+    \caption{Communication efficient update of personalized component on the $n$-th client for the $t+1$ iteration.}
+    \label{algo_xxx}
+    \begin{algorithmic}[1]
+        \Require A positive $\gamma$ to improve communication efficiency.
+        \State Receive the parameter $\y_t^{(n)} := \M\x_t + \N\z_t^{(n)}$ from the server.
+        \State Randomly sample an instance $\a\sim\Dcal_n$, and compute the stochastic gradient $\g^{(n)}_t = \nabla f(\y_t^{(n)};\a)$ with $\a\sim\Dcal_n$.
+        \State Compute $\v$ by performing:
+        \begin{align}
+        \nonumber
+        \v = \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} + \gamma \lrnorm{\bLambda(\y - \x_t)}_1 + \frac{\lrnorm{\y - \x_t}^2}{2\eta_t}. 
+       \end{align} 
+       \State Obtain the communication efficient update of local model by performing:
+       $$\nabla_{t+1}^{(n)} = \frac{\x_t - \v}{\eta_t}.$$
+       \State Send $\nabla_{t+1}^{(n)}$ to the server.
+    \end{algorithmic}
+\end{algorithm} 
+
+\begin{align}
+\nonumber
+\nabla_{t+1}^{(n)} = \frac{\x_t - \v}{\eta_t}, 
+\end{align} where $\v$ is obtained by performing the following problem Eq. \ref{equa_update_rule_cer}.
+\begin{align}
+\nonumber
+\v = \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} + \gamma \lrnorm{\bLambda(\y - \x_t)}_1 + \frac{\lrnorm{\y - \x_t}^2}{2\eta_t}. 
+\end{align} 
+
+
+
+\begin{figure}[!]
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\centering 
+\subfigure{\includegraphics[width=0.47\columnwidth]{figs/figure_illustrative_communication_efficient_clustering_1}\label{figure_illustrative_communication_efficient_clustering_1}}
+\subfigure{\includegraphics[width=0.47\columnwidth]{figs/figure_illustrative_communication_efficient_clustering_2}\label{figure_illustrative_communication_efficient_clustering_2}}
+\subfigure{\includegraphics[width=0.47\columnwidth]{figs/figure_illustrative_communication_efficient_clustering_3}\label{figure_illustrative_communication_efficient_clustering_3}}
+\subfigure{\includegraphics[width=0.47\columnwidth]{figs/figure_illustrative_communication_efficient_clustering_4}\label{figure_illustrative_communication_efficient_clustering_4}}
+\caption{Comparison of elements of $\nabla_{t+1}^{(n)}$. The first sub-figure is plotted by using the classic gradient descent method without the communication efficient regularizer. The second sub-figure is plotted by using our method. The third and fourth sub-figures are plotted by using our method and the k-means clustering with $k=3$ and $k=4$, respectively.  }
+\label{figure_illustrative_communication_efficient_clustering}
+\end{figure}
+
+\section{Computation Efficient Update of Model}
+
+\textbf{Efficient update of $\x$.} When the server collects $\nabla_{t+1}^{(n)}$ from client, the sharing component $\x$ is updated by performing as follows.
+\begin{align}
+\nonumber
+\x_{t+1} = \argmin_{\substack{\x\in\RR^{d_1}}}  \lrangle{\frac{1}{N}\sum_{n=1}^N\M^{-1}\nabla_{t+1}^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2.
+\end{align} Since it is a unconstrained optimization problem, it equals to the following update rule.
+\begin{align}
+\nonumber
+\x_{t+1} = \x_t - \eta_t \lrincir{\frac{1}{N}\sum_{n=1}^N\M^{-1}\nabla_{t+1}^{(n)}}.
+\end{align} That is, the sharing component $\x$ can be updated with low computational cost.
+
+\textbf{Efficient update of $\Z$.} 
+
+\begin{align}
+\nonumber
+\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
+\end{align}
+
+
+
+
+
+
+
+
 
 
 
@@ -247,8 +364,8 @@ This work was supported by the xx.
 
 
 
-%\bibliographystyle{IEEEtran}  
-%\bibliography{reference}
+\bibliographystyle{IEEEtran}  
+\bibliography{reference}
 
 
 %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{Yawei.pdf}}]{Yawei Zhao} is currently a Ph.D. candidate in Computer Science from the National University of Defense Technology, China. He received his B.E. degree and M.S. degree in Computer Science from the National University of Defense Technology, China, in 2013 and 2015, respectively. His research interests include asynchronous and parallel optimization algorithms, pattern recognition and machine learning.
