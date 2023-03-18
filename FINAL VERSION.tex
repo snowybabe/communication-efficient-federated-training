@@ -45,10 +45,10 @@
 \title{A Fast Training Framework for Federated Model with Personalized Component}
 
 
-\author{Yawei Zhao, Qinghe Liu, Mingming Jiang, Kunlun He
-\thanks{Yawei Zhao, Qinghe Liu, Mingming Jiang, and Kunlun He are with the Medical Big Data Research Center, Chinese PLA General Hospital, Beijing, 100039, China. E-mail: \texttt{csyawei.zhao@gmail.com},  \texttt{Liuqinghe9638@163.com}, \texttt{jiangmingming1994@163.com}, \texttt{kunlunhe@plagh.org}.
-}
-}
+%\author{Yawei Zhao, Qinghe Liu, Mingming Jiang, Kunlun He
+%\thanks{Yawei Zhao, Qinghe Liu, Mingming Jiang, and Kunlun He are with the Medical Big Data Research Center, Chinese PLA General Hospital, Beijing, 100039, China. E-mail: \texttt{csyawei.zhao@gmail.com},  \texttt{Liuqinghe9638@163.com}, \texttt{jiangmingming1994@163.com}, \texttt{kunlunhe@plagh.org}.
+%}
+%}
 
 
 
@@ -306,23 +306,7 @@ Note that there is a trade-off between the accuracy and communication efficiency
 
 We take an example for more explanation. We conduct logistic regression on the \textit{covtype} dataset. $\nabla_{t+1}^{(n)}$ has $55$ elements. As illustrated in Figure \ref{figure_illustrative_communication_efficient_clustering}, the x-axis represents the elements, and the y-axis represents values of an element. When the basic gradient descent method, that is $\gamma = 0$. is used to yield $\nabla_{t+1}^{(n)}$, the top-left sub-figure shows that its elements are usually different. But, when the communication efficient regularizer is used to update $\nabla_{t+1}^{(n)}$, the top-right sub-figure shows that its elements can be partitioned into multiple clusters.  When k-means clustering is furthermore conducted on those elements, the bottom-left and bottom-right sub-figures show that those elements can be represented with $k=4$ and $k=3$ cluster centers, respectively.  
 
-\begin{algorithm}[!t]
-    \caption{Communication efficient update of personalized component on the $n$-th client for the $t+1$ iteration.}
-    \label{algo_xxx}
-    \begin{algorithmic}[1]
-        \Require A positive $\gamma$ to improve communication efficiency.
-        \State Receive the parameter $\y_t^{(n)} := \M\x_t + \N\z_t^{(n)}$ from the server.
-        \State Randomly sample an instance $\a\sim\Dcal_n$, and compute the stochastic gradient $\g^{(n)}_t = \nabla f(\y_t^{(n)};\a)$ with $\a\sim\Dcal_n$.
-        \State Compute $\v$ by performing:
-        \begin{align}
-        \nonumber
-        \v = \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} + \gamma \lrnorm{\bLambda(\y - \x_t)}_1 + \frac{\lrnorm{\y - \x_t}^2}{2\eta_t}. 
-       \end{align} 
-       \State Obtain the communication efficient update of local model by performing:
-       $$\nabla_{t+1}^{(n)} = \frac{\x_t - \v}{\eta_t}.$$
-       \State Send $\nabla_{t+1}^{(n)}$ to the server.
-    \end{algorithmic}
-\end{algorithm} 
+
 
 \subsection{Optimizing $\nabla_{t+1}^{(n)}$.}
 As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by 
@@ -338,66 +322,91 @@ As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by
 \end{align} $\v$ can be obtained by performing the following problem.
 \begin{align}
 \nonumber
-\min_{\y\in\RR^d} \underbrace{\lrnorm{\r - \bLambda \x_t}_1 + \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma}}_{=: g(\r, \y)},
+\min_{\y\in\RR^d, \r\in\RR^d} \underbrace{\lrnorm{\r}_1 + \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma}}_{=: g(\r, \y)},
 \end{align} subject to:
 \begin{align}
 \nonumber
-\r = \bLambda \y.
+\r = \bLambda \y - \bLambda \x_t.
 \end{align} The Lagrangian multiplier of $g(\r, \y)$ is 
 \begin{align}
 \nonumber
-L(\r, \y, \bomega) = g(\r, \y) + \lrangle{\bomega, \r - \bLambda \y} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y}^2.
+& L(\r, \y, \bomega)  \\ \nonumber
+= & g(\r, \y) + \lrangle{\bomega, \r - \bLambda \y + \bLambda\x_t} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y + \bLambda\x_t}^2.
 \end{align} ADMM\cite{xx} is used to solve the above optimization problem.
 
 \textbf{Update of $\r$.} Given $\y_j$, $\bomega_j$, $\r_{j+1}$ is updated by performing the following problem.
 \begin{align}
 \nonumber
 &\r_{j+1} = \argmin_{\r\in\RR^d} L(\r, \y_j, \bomega_j) \\ \nonumber
-= & \argmin_{\r\in\RR^d} \lrnorm{\r - \bLambda \x_t}_1 + \lrangle{\bomega_j, \r} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y_j}^2 \\ \nonumber
-= & \argmin_{\r\in\RR^d} \lrnorm{\r - \bLambda \x_t}_1 + \frac{\rho}{2}\lrnorm{\r - \lrincir{\bLambda \y_j - \frac{1}{\rho}\bomega_j}}^2 \\ \nonumber
-= & \Prox_{\rho, \lrnorm{\cdot - \bLambda \x_t}_1}\lrincir{\bLambda \y_j - \frac{1}{\rho}\bomega_j} \\ \nonumber
-= & \Prox_{\rho, \lrnorm{\cdot}_1}\lrincir{\bLambda \y_j - \frac{1}{\rho}\bomega_j - \bLambda \x_t}  + \bLambda \x_t \\ \nonumber
-= & \left[\bLambda (\y_j - \x_t) \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda (\x_t - \y_j) \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{+} \bLambda \x_t.
+= & \argmin_{\r\in\RR^d} \lrnorm{\r}_1 + \lrangle{\bomega_j, \r} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y_j + \bLambda\x_t}^2 \\ \nonumber
+= & \argmin_{\r\in\RR^d} \lrnorm{\r}_1 + \frac{\rho}{2}\lrnorm{\r - \lrincir{\bLambda \y_j - \bLambda\x_t - \frac{1}{\rho}\bomega_j}}^2 \\ \nonumber
+= & \Prox_{\rho, \lrnorm{\cdot}_1}\lrincir{\bLambda \y_j - \bLambda\x_t - \frac{1}{\rho}\bomega_j} \\ \nonumber
+= & \left[\bLambda (\y_j - \x_t) \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda (\x_t - \y_j) \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}.
+\end{align} The last equality holds due to
+\begin{align}
+\nonumber
+\Prox_{\nu, \lrnorm{\cdot}_1}(\a) = (\a - \nu)_+ - (-\a - \nu)_+.
 \end{align}
 
 \textbf{Update of $\y$.} Given $\r_{j+1}$, $\bomega_j$, $\y_{j+1}$ is updated by performing the following problem.
 \begin{align}
 \nonumber
 &\y_{j+1} = \argmin_{\y\in\RR^d} L(\r_{j+1}, \y_j, \bomega_j) \\ \nonumber
-= & \argmin_{\y\in\RR^d} \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma} - \lrangle{\bomega_j, \bLambda \y} + \frac{\rho}{2}\lrnorm{\r_{j+1} - \bLambda \y}^2 \\ \nonumber
-= & \argmin_{\y\in\RR^d} \lrnorm{\bLambda \y - \lrincir{\r_{j+1} + \frac{\bomega_j}{\rho}}}^2 + \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{\rho\eta_t\gamma} \\ \nonumber
- = & \Prox_{\frac{2}{\rho\eta_t\gamma}, \lrnorm{\bLambda \cdot - \lrincir{\r_{j+1} + \frac{\bomega_j}{\rho}}}^2} \lrincir{\x_t - \eta_t\g_t^{(n)}} \\ \nonumber
-= & \lrincir{\frac{4}{\rho\eta_t\gamma}\bLambda^\top\bLambda + \I}^{-1}\lrincir{\x_t - \eta_t\g_t^{(n)}+\frac{4}{\rho\eta_t\gamma}\lrincir{\r_{j+1} + \frac{\bomega_j}{\rho}}}.
-\end{align}
+= & \argmin_{\y\in\RR^d} \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma} - \lrangle{\bomega_j, \bLambda \y} \\ \nonumber 
+& {~~~~~~~~} + \frac{\rho}{2}\lrnorm{\r_{j+1} - \bLambda \y + \bLambda\x_t}^2 \\ \nonumber
+= & \argmin_{\y\in\RR^d} \lrnorm{\bLambda \y \mathrm{-} \left[\r_{j+1} \mathrm{+} \bLambda\x_t \mathrm{+} \frac{\bomega_j}{\rho}\right]}^2 \mathrm{+} \frac{\lrnorm{\y \mathrm{-} \x_t \mathrm{+} \eta_t\g_t^{(n)}}^2}{\rho\eta_t\gamma} \\ \nonumber
+ = & \Prox_{\frac{2}{\rho\eta_t\gamma}, \lrnorm{\bLambda \cdot - \lrincir{\r_{j+1} + \bLambda\x_t + \frac{\bomega_j}{\rho}}}^2} \lrincir{\x_t - \eta_t\g_t^{(n)}} \\ \nonumber
+= & \lrincir{\frac{4\bLambda^\top\bLambda}{\rho\eta_t\gamma} + \I}^{-1}\left[\x_t \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\x_t \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
+\end{align} The last equality holds due to 
+\begin{align}
+\nonumber
+\Prox_{\nu, \phi(\a) = \frac{1}{2}\a^\top\A\a+\b^\top\x}(\u) = (\I + \nu\A)^{-1}(\u-\nu\b).
+\end{align} According to the eigen-value decomposition \cite{xx}, $\bLambda^\top\bLambda = \P\bSigma\P^{-1}$, where $\bSigma := \diag{\lambda_1, \lambda_2, ..., \lambda_d}$, and $\lambda_i$ with $i\in\{1,2, ..., d\}$ are eigen-values of $\bLambda^\top\bLambda$. We have 
+\begin{align}
+\nonumber
+\lrincir{\frac{4\bLambda^\top\bLambda}{\rho\eta_t\gamma} + \I}^{-1} = \P\lrincir{\frac{4\bSigma}{\rho\eta_t\gamma} + 1}\P^{-1}.
+\end{align} Therefore, $\y_{j+1}$ is updated by the following rule.
+\begin{align}
+\nonumber
+&\y_{j+1}  \\ \nonumber
+= & \P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]\P^{\mathrm{-1}}\left[\x_t \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\x_t \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
+\end{align} 
 
 \textbf{Update of $\bomega$.} Given $\r_{j+1}$ and $\y_{j+1}$, $\bomega_{j+1}$ is updated by the following rule.
 \begin{align}
 \nonumber
-\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1}}.
+\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1} + \bLambda\x_t}.
 \end{align}
 
 \begin{algorithm}[!]
-    \caption{Communication Efficient Update of $\nabla_{t+1}^{(n)}$.}
+    \caption{Communication efficient update of personalized models on the $n$-th client for the $t\mathrm{+}1$ iteration.}
     \label{algo_efficient_update_nabla}
     \begin{algorithmic}[1]
-        \Require given $\x_t$.
+        \Require A positive $\gamma$ to improve communication efficiency. Given $\x_t$, $\P$, and $\bSigma$ such that $\bLambda^\top\bLambda = \P\bSigma\P^{-1}$.
+        \State Receive the parameter $\y_t^{(n)} := \M\x_t + \N\z_t^{(n)}$ from the server.
+        \State Randomly sample an instance $\a\sim\Dcal_n$, and compute the stochastic gradient $\g^{(n)}_t = \nabla f(\y_t^{(n)};\a)$ with $\a\sim\Dcal_n$.
            \For {$j=0,1,2, ..., J-1$}
             \State Update $\r_{j+1}$ by performing:
             \begin{align}
             \nonumber
-            \r_{j+1} = \left[\bLambda (\y_j - \x_t) \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda (\x_t - \y_j) \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{+} \bLambda \x_t.
+            \r_{j+1} = \left[\bLambda (\y_j - \x_t) \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda (\x_t - \y_j) \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}.
             \end{align}
             \State Update $\y_{j+1}$ by performing:
             \begin{align}
 	   \nonumber
-	   \y_{j+1} = \lrincir{\frac{4}{\rho\eta_t\gamma}\bLambda^\top\bLambda + \I}^{-1}\lrincir{\x_t - \eta_t\g_t^{(n)}+\frac{4}{\rho\eta_t\gamma}\lrincir{\r_{j+1} + \frac{\bomega_j}{\rho}}}.
+	   & \y_{j+1} \\ \nonumber
+	   = &\P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]\P^{\mathrm{-1}}\left[\x_t \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\mathrm{\top}\left[\r_{j+1} \mathrm{+} \bLambda\x_t \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
 	   \end{align} 
            \State Update $\bomega_{j+1}$ by performing:
-            $$\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1}}.$$
+            $$\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1} + \bLambda\x_t}.$$
             \EndFor
-        \Return $\nabla_{t+1}^{(n)}$ with $\nabla_{t+1}^{(n)} = \frac{\x_t - \y_J}{\eta_t}.$
+        \State Compute $\nabla_{t+1}^{(n)}$ with $\nabla_{t+1}^{(n)} = \frac{\x_t - \y_J}{\eta_t}.$
+        \State Send $\nabla_{t+1}^{(n)}$ to the server.
       \end{algorithmic}
 \end{algorithm}
+
+
+
 
 \begin{figure}[!]
 \setlength{\abovecaptionskip}{0pt}
