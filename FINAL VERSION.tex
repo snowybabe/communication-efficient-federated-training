@@ -42,7 +42,7 @@
 \begin{document}
 
 
-\title{Communication Efficient Training of Federated Model Over Unbalanced Labels}
+\title{A Fast Training Framework for Federated Model with Personalized Component}
 
 
 \author{Yawei Zhao, Qinghe Liu, Mingming Jiang, Kunlun He
@@ -86,8 +86,11 @@ xxx
 
 \subsection{Notations}
 
-
-
+\begin{itemize}
+\item Bold and lower letters such as $\a$ represents a vector. Bold and upper letters such as $\X$ represents a matrix.
+\item Lower letters such as $f(\cdot)$ and $h(\cdot)$ represents a function. Other letters such as $n$, $N$, $M$ represents a scalar value.
+\item $\Ncal$ and $\Ecal$ represent a set, and $\Dcal_n$ represents a data distribution for the $n$-th client.
+\end{itemize}
 
 
 
@@ -175,7 +178,7 @@ The variable $\{\x^{(1)}, \x^{(2)}, ..., \x^{(N)}\}$ is obtained by alternativel
 \end{align} By using the data-driven stochastic optimization method \cite{dd}, we need to perform the following problem to obtain $\x$, iteratively.
 \begin{align}
 \nonumber
-\min_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2,
+\min_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^\top\g_t^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2,
 \end{align} where $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x + \N \z_t^{(n)}$ by using data drawn from the local dataset $\Dcal_n$.
 
 
@@ -186,11 +189,11 @@ The variable $\{\x^{(1)}, \x^{(2)}, ..., \x^{(N)}\}$ is obtained by alternativel
 \end{align}  By using the data-driven stochastic optimization method \cite{dd}, we need to perform the following problem.
 \begin{align}
 \nonumber
-\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\N^{-1} \g_t^{(n)}, \z^{(n)}} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
+\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\N^\top \g_t^{(n)}, \z^{(n)}} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
 \end{align} $\g_t^{(n)}$ is a stochastic gradient of $f_n$ with $\M\x_t + \N \z^{(n)}$ by using stochastic data  drawn from the local dataset $\Dcal_n$. Suppose $\G_t = \left [ \g_t^{(1)}, \g_t^{(2)}, ..., \g_t^{(N)} \right ]$, $\Z$ is optimized by performing the following problem.
 \begin{align}
 \nonumber
-\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\1_d^\top\lrincir{\G_t \odot \Z}\1_N + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
+\min_{\substack{\Z\in\RR^{d_2\times N}}} \frac{1}{N}\1_d^\top\lrincir{\lrincir{\N^\top\G_t} \odot \Z}\1_N + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
 \end{align}
 
 \textbf{On client.}  
@@ -223,12 +226,12 @@ The variable $\{\x^{(1)}, \x^{(2)}, ..., \x^{(N)}\}$ is obtained by alternativel
         \For {$t=1,2, ..., T$}
             \State Collect stochastic gradient $\G_t = \left [ \g_t^{(1)}, \g_t^{(2)}, ..., \g_t^{(N)} \right ]$ from all client $n$ with $n\in\{1,2, ..., N\}$.
             \State Update the global parameter $\x$ by performing:
-            $$ \x_{t+1} = \argmin_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^{-1}\g_t^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2.$$
+            $$ \x_{t+1} = \argmin_{\substack{\x\in\RR^{d_1}}} \frac{1}{N}\sum_{n=1}^N \lrangle{\M^\top\g_t^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2.$$
             \State Update the personalized parameter $\Z$ by performing:
             \begin{align}
             \nonumber
             &\Z_{t+1} \\ \nonumber
-            = & \argmin_{\substack{\Z\in\RR^{d_2\times N}}} \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \lambda \lrnorm{\Z\Q}_{1,p} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
+            \mathrm{=} & \argmin_{\substack{\Z\in\RR^{d_2\mathrm{\times} N}}} \frac{\1_d^\top\left[\lrincir{\N^\top\G_t} \mathrm{\odot} \Z\right]\1_N}{N} \mathrm{+} \lambda \lrnorm{\Z\Q}_{1,p} \mathrm{+} \frac{\lrnorm{\Z \mathrm{-} \Z_t}_F^2}{2\eta_t}.
             \end{align}
             \State Deliver the parameter $\y_{t+1}^{(n)} = \M\x_{t+1} + \N\z_{t+1}^{(n)}$ to every client.
         \EndFor
@@ -321,16 +324,80 @@ We take an example for more explanation. We conduct logistic regression on the \
     \end{algorithmic}
 \end{algorithm} 
 
+\subsection{Optimizing $\nabla_{t+1}^{(n)}$.}
+As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by 
 \begin{align}
 \nonumber
-\nabla_{t+1}^{(n)} = \frac{\x_t - \v}{\eta_t}, 
-\end{align} where $\v$ is obtained by performing the following problem Eq. \ref{equa_update_rule_cer}.
+\nabla_{t+1}^{(n)} = \frac{\x_t - \v}{\eta_t}.
+\end{align} $\v$ is obtained by performing the following problem.
 \begin{align}
 \nonumber
-\v = \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} + \gamma \lrnorm{\bLambda(\y - \x_t)}_1 + \frac{\lrnorm{\y - \x_t}^2}{2\eta_t}. 
-\end{align} 
+& \v \\ \nonumber
+= & \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} + \gamma \lrnorm{\bLambda(\y - \x_t)}_1 + \frac{\lrnorm{\y - \x_t}^2}{2\eta_t} \\ \nonumber
+= & \argmin_{\y\in\RR^d} \lrnorm{\bLambda(\y - \x_t)}_1 + \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma}.
+\end{align} $\v$ can be obtained by performing the following problem.
+\begin{align}
+\nonumber
+\min_{\y\in\RR^d} \underbrace{\lrnorm{\r - \bLambda \x_t}_1 + \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma}}_{=: g(\r, \y)},
+\end{align} subject to:
+\begin{align}
+\nonumber
+\r = \bLambda \y.
+\end{align} The Lagrangian multiplier of $g(\r, \y)$ is 
+\begin{align}
+\nonumber
+L(\r, \y, \bomega) = g(\r, \y) + \lrangle{\bomega, \r - \bLambda \y} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y}^2.
+\end{align} ADMM\cite{xx} is used to solve the above optimization problem.
 
+\textbf{Update of $\r$.} Given $\y_j$, $\bomega_j$, $\r_{j+1}$ is updated by performing the following problem.
+\begin{align}
+\nonumber
+&\r_{j+1} = \argmin_{\r\in\RR^d} L(\r, \y_j, \bomega_j) \\ \nonumber
+= & \argmin_{\r\in\RR^d} \lrnorm{\r - \bLambda \x_t}_1 + \lrangle{\bomega_j, \r} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y_j}^2 \\ \nonumber
+= & \argmin_{\r\in\RR^d} \lrnorm{\r - \bLambda \x_t}_1 + \frac{\rho}{2}\lrnorm{\r - \lrincir{\bLambda \y_j - \frac{1}{\rho}\bomega_j}}^2 \\ \nonumber
+= & \Prox_{\rho, \lrnorm{\cdot - \bLambda \x_t}_1}\lrincir{\bLambda \y_j - \frac{1}{\rho}\bomega_j} \\ \nonumber
+= & \Prox_{\rho, \lrnorm{\cdot}_1}\lrincir{\bLambda \y_j - \frac{1}{\rho}\bomega_j - \bLambda \x_t}  + \bLambda \x_t \\ \nonumber
+= & \left[\bLambda (\y_j - \x_t) \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda (\x_t - \y_j) \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{+} \bLambda \x_t.
+\end{align}
 
+\textbf{Update of $\y$.} Given $\r_{j+1}$, $\bomega_j$, $\y_{j+1}$ is updated by performing the following problem.
+\begin{align}
+\nonumber
+&\y_{j+1} = \argmin_{\y\in\RR^d} L(\r_{j+1}, \y_j, \bomega_j) \\ \nonumber
+= & \argmin_{\y\in\RR^d} \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma} - \lrangle{\bomega_j, \bLambda \y} + \frac{\rho}{2}\lrnorm{\r_{j+1} - \bLambda \y}^2 \\ \nonumber
+= & \argmin_{\y\in\RR^d} \lrnorm{\bLambda \y - \lrincir{\r_{j+1} + \frac{\bomega_j}{\rho}}}^2 + \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{\rho\eta_t\gamma} \\ \nonumber
+ = & \Prox_{\frac{2}{\rho\eta_t\gamma}, \lrnorm{\bLambda \cdot - \lrincir{\r_{j+1} + \frac{\bomega_j}{\rho}}}^2} \lrincir{\x_t - \eta_t\g_t^{(n)}} \\ \nonumber
+= & \lrincir{\frac{4}{\rho\eta_t\gamma}\bLambda^\top\bLambda + \I}^{-1}\lrincir{\x_t - \eta_t\g_t^{(n)}+\frac{4}{\rho\eta_t\gamma}\lrincir{\r_{j+1} + \frac{\bomega_j}{\rho}}}.
+\end{align}
+
+\textbf{Update of $\bomega$.} Given $\r_{j+1}$ and $\y_{j+1}$, $\bomega_{j+1}$ is updated by the following rule.
+\begin{align}
+\nonumber
+\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1}}.
+\end{align}
+
+\begin{algorithm}[!]
+    \caption{Communication Efficient Update of $\nabla_{t+1}^{(n)}$.}
+    \label{algo_efficient_update_nabla}
+    \begin{algorithmic}[1]
+        \Require given $\x_t$.
+           \For {$j=0,1,2, ..., J-1$}
+            \State Update $\r_{j+1}$ by performing:
+            \begin{align}
+            \nonumber
+            \r_{j+1} = \left[\bLambda (\y_j - \x_t) \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda (\x_t - \y_j) \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{+} \bLambda \x_t.
+            \end{align}
+            \State Update $\y_{j+1}$ by performing:
+            \begin{align}
+	   \nonumber
+	   \y_{j+1} = \lrincir{\frac{4}{\rho\eta_t\gamma}\bLambda^\top\bLambda + \I}^{-1}\lrincir{\x_t - \eta_t\g_t^{(n)}+\frac{4}{\rho\eta_t\gamma}\lrincir{\r_{j+1} + \frac{\bomega_j}{\rho}}}.
+	   \end{align} 
+           \State Update $\bomega_{j+1}$ by performing:
+            $$\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1}}.$$
+            \EndFor
+        \Return $\nabla_{t+1}^{(n)}$ with $\nabla_{t+1}^{(n)} = \frac{\x_t - \y_J}{\eta_t}.$
+      \end{algorithmic}
+\end{algorithm}
 
 \begin{figure}[!]
 \setlength{\abovecaptionskip}{0pt}
@@ -351,11 +418,11 @@ We take an example for more explanation. We conduct logistic regression on the \
 When the server collects $\nabla_{t+1}^{(n)}$ from client, the sharing component $\x$ is updated by performing as follows.
 \begin{align}
 \nonumber
-\x_{t+1} = \argmin_{\substack{\x\in\RR^{d_1}}}  \lrangle{\frac{1}{N}\sum_{n=1}^N\M^{-1}\nabla_{t+1}^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2.
+\x_{t+1} = \argmin_{\substack{\x\in\RR^{d_1}}}  \lrangle{\frac{1}{N}\sum_{n=1}^N\M^\top\nabla_{t+1}^{(n)}, \x} + \frac{1}{2\eta_t}\lrnorm{\x - \x_t}^2.
 \end{align} Since it is a unconstrained optimization problem, it equals to the following update rule.
 \begin{align}
 \nonumber
-\x_{t+1} = \x_t - \eta_t \lrincir{\frac{1}{N}\sum_{n=1}^N\M^{-1}\nabla_{t+1}^{(n)}}.
+\x_{t+1} = \x_t - \eta_t \lrincir{\frac{1}{N}\sum_{n=1}^N\M^\top\nabla_{t+1}^{(n)}}.
 \end{align} That is, the sharing component $\x$ can be updated with low computational cost.
 
 \subsection{Efficient update of $\Z$} 
@@ -363,7 +430,7 @@ When the server collects $\nabla_{t+1}^{(n)}$ from client, the sharing component
 Denote 
 \begin{align}
 \nonumber
-h(\Z) :=  \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
+h(\Z) :=  \frac{\1_d^\top\lrincir{\lrincir{\N^\top\G_t} \odot \Z}\1_N}{N} + \frac{1}{2\eta_t}\lrnorm{\Z - \Z_t}_F^2.
 \end{align} The update of $\Z$ can be formulated by the following problem.
 \begin{align}
 \nonumber
@@ -454,7 +521,7 @@ h(\Z) :=  \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \frac{1}{2\eta_t}\lrn
         \For {$t=1,2, ..., T$}
             \State Collect stochastic gradient $\G_t = \left [ \g_t^{(1)}, \g_t^{(2)}, ..., \g_t^{(N)} \right ]$ from all client $n$ with $n\in\{1,2, ..., N\}$.
             \State Update the global parameter $\x$ by performing:
-            $$ \x_{t+1} = \x_t - \eta_t \lrincir{\frac{1}{N}\sum_{n=1}^N\M^{-1}\nabla_{t+1}^{(n)}}. $$
+            $$ \x_{t+1} = \x_t - \eta_t \lrincir{\frac{1}{N}\sum_{n=1}^N\M^\top\nabla_{t+1}^{(n)}}. $$
            \State Update the personalized model $\Z_{t+1}$ according to Algorithm \ref{algo_efficient_update_Z}.
             \State Deliver the parameter $\y_{t+1}^{(n)} = \M\x_{t+1} + \N\z_{t+1}^{(n)}$ to every client.
         \EndFor
@@ -469,7 +536,50 @@ h(\Z) :=  \frac{\1_d^\top\lrincir{\G_t \odot \Z}\1_N}{N} + \frac{1}{2\eta_t}\lrn
 
 \section{Empirical Studies}
 
+\subsection{Experimental Settings}
 
+\textbf{Existing methods.}
+\begin{itemize}
+\item \textbf{pFed\cite{dd}.}
+\item \textbf{xxxx.}
+\end{itemize}
+
+
+
+
+
+
+
+
+\subsection{Lung Nodule Detection}
+\textbf{Datasets.}
+
+
+medical image
+
+
+
+
+
+
+
+\subsection{Segmentation}
+\textbf{Datasets.}
+
+
+medical image
+
+
+
+
+
+
+
+
+\subsection{Prediction}
+\textbf{Datasets.}
+
+structure data
 
 
 
