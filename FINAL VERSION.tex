@@ -277,11 +277,13 @@ In the work, we propose a communication efficient method, which can let $\g_t^{(
 To improve the communication efficiency, we propose a new method to conduct the update of the parameter, which is formulated as
 \begin{align}
 \nonumber
-\nabla_{t+1}^{(n)} = \frac{\x_t - \v}{\eta_t}, 
+\nabla_{t+1}^{(n)} = \frac{\y_t^{(n)} - \v}{\eta_t}, 
 \end{align} where $\v$ is obtained by performing the following problem Eq. \ref{equa_update_rule_cer}.
 \begin{align}
 \label{equa_update_rule_cer}
-\v = \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} + \underbrace{\gamma \lrnorm{\bLambda(\y - \x_t)}_1}_{\text{communication efficient regularizer}} + \frac{\lrnorm{\y - \x_t}^2}{2\eta_t}. 
+\nonumber
+& \v \\ \nonumber
+= & \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} \mathrm{+} \underbrace{\gamma \lrnorm{\bLambda\lrincir{\y \mathrm{-} \y_t^{(n)}}}_1}_{\text{\scriptsize  communication efficient  regularizer}} \mathrm{+} \frac{\lrnorm{\y \mathrm{-} \y_t^{(n)}}^2}{2\eta_t}. 
 \end{align}  Here, $\g^{(n)}_t$ is a stochastic gradient, which is obtained by using the local data in the $n$-th client. The given full rank square matrix $\bLambda\in\mathbb{R}^{d\times d}$ is defined by
 \begin{align}
 \nonumber
@@ -317,31 +319,31 @@ As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by
 \begin{align}
 \nonumber
 & \v \\ \nonumber
-= & \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} + \gamma \lrnorm{\bLambda(\y - \x_t)}_1 + \frac{\lrnorm{\y - \x_t}^2}{2\eta_t} \\ \nonumber
-= & \argmin_{\y\in\RR^d} \lrnorm{\bLambda(\y - \x_t)}_1 + \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma}.
+= & \argmin_{\y\in\RR^d} \lrangle {\g^{(n)}_t, \y} + \gamma \lrnorm{\bLambda\lrincir{\y - \y_t^{(n)}}}_1 + \frac{\lrnorm{\y - \y_t^{(n)}}^2}{2\eta_t} \\ \nonumber
+= & \argmin_{\y\in\RR^d} \lrnorm{\bLambda\lrincir{\y - \y_t^{(n)}}}_1 + \frac{\lrnorm{\y - \lrincir{\y_t^{(n)} - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma}.
 \end{align} $\v$ can be obtained by performing the following problem.
 \begin{align}
 \nonumber
-\min_{\y\in\RR^d, \r\in\RR^d} \underbrace{\lrnorm{\r}_1 + \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma}}_{=: g(\r, \y)},
+\min_{\y\in\RR^d, \r\in\RR^d} \underbrace{\lrnorm{\r}_1 + \frac{\lrnorm{\y - \lrincir{\y_t^{(n)} - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma}}_{=: g(\r, \y)},
 \end{align} subject to:
 \begin{align}
 \nonumber
-\r = \bLambda \y - \bLambda \x_t.
+\r = \bLambda \y - \bLambda \y_t^{(n)}.
 \end{align} The Lagrangian multiplier of $g(\r, \y)$ is 
 \begin{align}
 \nonumber
 & L(\r, \y, \bomega)  \\ \nonumber
-= & g(\r, \y) + \lrangle{\bomega, \r - \bLambda \y + \bLambda\x_t} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y + \bLambda\x_t}^2.
+= & g(\r, \y) + \lrangle{\bomega, \r - \bLambda \y + \bLambda\y_t^{(n)}} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y + \bLambda\y_t^{(n)}}^2.
 \end{align} ADMM\cite{xx} is used to solve the above optimization problem.
 
 \textbf{Update of $\r$.} Given $\y_j$, $\bomega_j$, $\r_{j+1}$ is updated by performing the following problem.
 \begin{align}
 \nonumber
 &\r_{j+1} = \argmin_{\r\in\RR^d} L(\r, \y_j, \bomega_j) \\ \nonumber
-= & \argmin_{\r\in\RR^d} \lrnorm{\r}_1 + \lrangle{\bomega_j, \r} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y_j + \bLambda\x_t}^2 \\ \nonumber
-= & \argmin_{\r\in\RR^d} \lrnorm{\r}_1 + \frac{\rho}{2}\lrnorm{\r - \lrincir{\bLambda \y_j - \bLambda\x_t - \frac{1}{\rho}\bomega_j}}^2 \\ \nonumber
-= & \Prox_{\rho, \lrnorm{\cdot}_1}\lrincir{\bLambda \y_j - \bLambda\x_t - \frac{1}{\rho}\bomega_j} \\ \nonumber
-= & \left[\bLambda (\y_j - \x_t) \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda (\x_t - \y_j) \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}.
+= & \argmin_{\r\in\RR^d} \lrnorm{\r}_1 + \lrangle{\bomega_j, \r} + \frac{\rho}{2}\lrnorm{\r - \bLambda \y_j + \bLambda\y_t^{(n)}}^2 \\ \nonumber
+= & \argmin_{\r\in\RR^d} \lrnorm{\r}_1 + \frac{\rho}{2}\lrnorm{\r - \lrincir{\bLambda \y_j - \bLambda\y_t^{(n)} - \frac{1}{\rho}\bomega_j}}^2 \\ \nonumber
+= & \Prox_{\rho, \lrnorm{\cdot}_1}\lrincir{\bLambda \y_j - \bLambda\y_t^{(n)} - \frac{1}{\rho}\bomega_j} \\ \nonumber
+= & \left[\bLambda \lrincir{\y_j - \y_t^{(n)}} \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda \lrincir{\y_t^{(n)} - \y_j} \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}.
 \end{align} The last equality holds due to
 \begin{align}
 \nonumber
@@ -352,11 +354,11 @@ As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by
 \begin{align}
 \nonumber
 &\y_{j+1} = \argmin_{\y\in\RR^d} L(\r_{j+1}, \y_j, \bomega_j) \\ \nonumber
-= & \argmin_{\y\in\RR^d} \frac{\lrnorm{\y - \lrincir{\x_t - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma} - \lrangle{\bomega_j, \bLambda \y} \\ \nonumber 
-& {~~~~~~~~} + \frac{\rho}{2}\lrnorm{\r_{j+1} - \bLambda \y + \bLambda\x_t}^2 \\ \nonumber
-= & \argmin_{\y\in\RR^d} \lrnorm{\bLambda \y \mathrm{-} \left[\r_{j+1} \mathrm{+} \bLambda\x_t \mathrm{+} \frac{\bomega_j}{\rho}\right]}^2 \mathrm{+} \frac{\lrnorm{\y \mathrm{-} \x_t \mathrm{+} \eta_t\g_t^{(n)}}^2}{\rho\eta_t\gamma} \\ \nonumber
- = & \Prox_{\frac{2}{\rho\eta_t\gamma}, \lrnorm{\bLambda \cdot - \lrincir{\r_{j+1} + \bLambda\x_t + \frac{\bomega_j}{\rho}}}^2} \lrincir{\x_t - \eta_t\g_t^{(n)}} \\ \nonumber
-= & \lrincir{\frac{4\bLambda^\top\bLambda}{\rho\eta_t\gamma} + \I}^{-1}\left[\x_t \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\x_t \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
+= & \argmin_{\y\in\RR^d} \frac{\lrnorm{\y - \lrincir{\y_t^{(n)} - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma} - \lrangle{\bomega_j, \bLambda \y} \\ \nonumber 
+& {~~~~~~~~} + \frac{\rho}{2}\lrnorm{\r_{j+1} - \bLambda \y + \bLambda\y_t^{(n)}}^2 \\ \nonumber
+= & \argmin_{\y\in\RR^d} \small \lrnorm{\bLambda \y \mathrm{-} \left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}^2 \mathrm{+} \frac{\lrnorm{\y \mathrm{-} \y_t^{(n)} \mathrm{+} \eta_t\g_t^{(n)}}^2}{\rho\eta_t\gamma} \\ \nonumber
+ = & \Prox_{\frac{2}{\rho\eta_t\gamma}, \lrnorm{\bLambda \cdot - \lrincir{\r_{j+1} + \bLambda\y_t^{(n)} + \frac{\bomega_j}{\rho}}}^2} \lrincir{\y_t^{(n)} - \eta_t\g_t^{(n)}} \\ \nonumber
+= & \small \lrincir{\frac{4\bLambda^\top\bLambda}{\rho\eta_t\gamma} + \I}^{-1}\left[\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
 \end{align} The last equality holds due to 
 \begin{align}
 \nonumber
@@ -369,13 +371,13 @@ As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by
 \begin{align}
 \nonumber
 &\y_{j+1}  \\ \nonumber
-= & \P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]\P^{\mathrm{-1}}\left[\x_t \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\x_t \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
+= & \small \P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]\P^{\mathrm{-1}}\left[\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
 \end{align} 
 
 \textbf{Update of $\bomega$.} Given $\r_{j+1}$ and $\y_{j+1}$, $\bomega_{j+1}$ is updated by the following rule.
 \begin{align}
 \nonumber
-\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1} + \bLambda\x_t}.
+\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1} + \bLambda\y_t^{(n)}}.
 \end{align}
 
 \begin{algorithm}[!]
@@ -389,18 +391,19 @@ As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by
             \State Update $\r_{j+1}$ by performing:
             \begin{align}
             \nonumber
-            \r_{j+1} = \left[\bLambda (\y_j - \x_t) \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda (\x_t - \y_j) \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}.
+            & \r_{j+1} \\ \nonumber
+            = & \left[\bLambda \lrincir{\y_j \mathrm{-} \y_t^{(n)}} \mathrm{-} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}  \mathrm{-} \left[\bLambda \lrincir{\y_t^{(n)} \mathrm{-} \y_j} \mathrm{+} \frac{\bomega_j}{\rho} \mathrm{-} \rho\right]_\mathrm{+}.
             \end{align}
             \State Update $\y_{j+1}$ by performing:
             \begin{align}
 	   \nonumber
 	   & \y_{j+1} \\ \nonumber
-	   = &\P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]\P^{\mathrm{-1}}\left[\x_t \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\mathrm{\top}\left[\r_{j+1} \mathrm{+} \bLambda\x_t \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
+	   = & \small \P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]\P^{\mathrm{-1}}\left[\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\mathrm{\top}\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
 	   \end{align} 
            \State Update $\bomega_{j+1}$ by performing:
-            $$\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1} + \bLambda\x_t}.$$
+            $$\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1} + \bLambda\y_t^{(n)}}.$$
             \EndFor
-        \State Compute $\nabla_{t+1}^{(n)}$ with $\nabla_{t+1}^{(n)} = \frac{\x_t - \y_J}{\eta_t}.$
+        \State Compute $\nabla_{t+1}^{(n)}$ with $\nabla_{t+1}^{(n)} = \frac{\y_t^{(n)} - \y_J}{\eta_t}.$
         \State Send $\nabla_{t+1}^{(n)}$ to the server.
       \end{algorithmic}
 \end{algorithm}
