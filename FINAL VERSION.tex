@@ -353,26 +353,20 @@ As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by
 \textbf{Update of $\y$.} Given $\r_{j+1}$, $\bomega_j$, $\y_{j+1}$ is updated by performing the following problem.
 \begin{align}
 \nonumber
-&\y_{j+1} = \argmin_{\y\in\RR^d} L(\r_{j+1}, \y_j, \bomega_j) \\ \nonumber
+&\y_{j+1} = \argmin_{\y\in\RR^d} L(\r_{j+1}, \y, \bomega_j) \\ \nonumber
 = & \argmin_{\y\in\RR^d} \frac{\lrnorm{\y - \lrincir{\y_t^{(n)} - \eta_t\g_t^{(n)}}}^2}{2\eta_t\gamma} - \lrangle{\bomega_j, \bLambda \y} \\ \nonumber 
 & {~~~~~~~~} + \frac{\rho}{2}\lrnorm{\r_{j+1} - \bLambda \y + \bLambda\y_t^{(n)}}^2 \\ \nonumber
 = & \argmin_{\y\in\RR^d} \small \lrnorm{\bLambda \y \mathrm{-} \left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}^2 \mathrm{+} \frac{\lrnorm{\y \mathrm{-} \y_t^{(n)} \mathrm{+} \eta_t\g_t^{(n)}}^2}{\rho\eta_t\gamma} \\ \nonumber
- = & \Prox_{\frac{2}{\rho\eta_t\gamma}, \lrnorm{\bLambda \cdot - \lrincir{\r_{j+1} + \bLambda\y_t^{(n)} + \frac{\bomega_j}{\rho}}}^2} \lrincir{\y_t^{(n)} - \eta_t\g_t^{(n)}} \\ \nonumber
-= & \small \lrincir{\frac{4\bLambda^\top\bLambda}{\rho\eta_t\gamma} + \I}^{-1}\left[\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
-\end{align} The last equality holds due to 
+=&\small \lrincir{\rho\eta_t\gamma\bLambda^\top\bLambda\mathrm{+}\I}^{-1}\left[\rho\eta_t\gamma\bLambda^\top\lrincir{\r_{j+1}\mathrm{+}\bLambda\y_t^{(n)}\mathrm{+}\frac{\bomega_j}{\rho}}\mathrm{+}\y_t^{(n)}\mathrm{-}\eta_t\g_t^{(n)}\right].
+\end{align}  According to the eigen-value decomposition \cite{xx}, $\bLambda^\top\bLambda = \P\bSigma\P^{-1}$, where $\bSigma := \diag\lrincir{\lambda_1, \lambda_2, ..., \lambda_d}$, and $\lambda_i$ with $i\in\{1,2, ..., d\}$ are eigen-values of $\bLambda^\top\bLambda$. We have 
 \begin{align}
 \nonumber
-\Prox_{\nu, \phi(\a) = \frac{1}{2}\a^\top\A\a+\b^\top\x}(\u) = (\I + \nu\A)^{-1}(\u-\nu\b).
-\end{align} According to the eigen-value decomposition \cite{xx}, $\bLambda^\top\bLambda = \P\bSigma\P^{-1}$, where $\bSigma := \diag\lrincir{\lambda_1, \lambda_2, ..., \lambda_d}$, and $\lambda_i$ with $i\in\{1,2, ..., d\}$ are eigen-values of $\bLambda^\top\bLambda$. We have 
-\begin{align}
-\nonumber
-\lrincir{\frac{4\bLambda^\top\bLambda}{\rho\eta_t\gamma} + \I}^{-1} = \P\lrincir{\frac{4\bSigma}{\rho\eta_t\gamma} + 1}^{-1}\P^{-1}.
+\lrincir{\rho\eta_t\gamma\bLambda^\top\bLambda + \I}^{-1} = \P\lrincir{\rho\eta_t\gamma\bSigma + \I}^{-1}\P^{-1}.
 \end{align} Therefore, $\y_{j+1}$ is updated by the following rule.
 \begin{align}
 \nonumber
 &\y_{j+1}  \\ \nonumber
-= & \small \P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]^{\mathrm{-1}}\P^{\mathrm{-1}}\left[\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right] \\ \nonumber
-= & \small \P\left[\frac{4\bSigma}{\rho\eta_t} \mathrm{+} \gamma\right]^{\mathrm{-1}}\P^{\mathrm{-1}}\left[\gamma\lrincir{\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t}\right] \\ \nonumber
+= & \small \P\lrincir{\rho\eta_t\gamma\bSigma \mathrm{+} \I}^{-1}\P^{-1} \left[\rho\eta_t\gamma\bLambda^\top\lrincir{\r_{j+1}\mathrm{+}\bLambda\y_t^{(n)}\mathrm{+}\frac{\bomega_j}{\rho}}\mathrm{+}\y_t^{(n)}\mathrm{-}\eta_t\g_t^{(n)}\right].
 \end{align} 
 
 \textbf{Update of $\bomega$.} Given $\r_{j+1}$ and $\y_{j+1}$, $\bomega_{j+1}$ is updated by the following rule.
@@ -399,7 +393,7 @@ As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by
             \begin{align}
 	   \nonumber
 	   & \y_{j+1} \\ \nonumber
-	   = & \small \P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]\P^{\mathrm{-1}}\left[\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\mathrm{\top}\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
+	   = & \scriptsize \P\lrincir{\rho\eta_t\gamma\bSigma \mathrm{+} \I}^{-1}\P^{-1} \left[\rho\eta_t\gamma\bLambda^\top\lrincir{\r_{j+1}\mathrm{+}\bLambda\y_t^{(n)}\mathrm{+}\frac{\bomega_j}{\rho}}\mathrm{+}\y_t^{(n)}\mathrm{-}\eta_t\g_t^{(n)}\right].
 	   \end{align} 
            \State Update $\bomega_{j+1}$ by performing:
             $$\bomega_{j+1} = \bomega_j + \rho\lrincir{\r_{j+1} - \bLambda\y_{j+1} + \bLambda\y_t^{(n)}}.$$
