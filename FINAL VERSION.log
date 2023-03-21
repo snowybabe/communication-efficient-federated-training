@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.3.8)  21 MAR 2023 11:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.3.8)  21 MAR 2023 14:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -916,39 +916,45 @@ LaTeX Font Warning: Command \small invalid in math mode on input line 362.
 LaTeX Warning: Citation `xx' on page 5 undefined on input line 366.
 
 
-LaTeX Font Warning: Command \small invalid in math mode on input line 375.
+LaTeX Font Warning: Command \small invalid in math mode on input line 376.
 
 
-LaTeX Font Warning: Command \small invalid in math mode on input line 375.
+LaTeX Font Warning: Command \small invalid in math mode on input line 376.
 
 
-Overfull \hbox (7.44594pt too wide) detected at line 375
+LaTeX Font Warning: Command \small invalid in math mode on input line 376.
+
+
+LaTeX Font Warning: Command \small invalid in math mode on input line 376.
+
+
+Overfull \hbox (18.13316pt too wide) detected at line 376
 []
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!htbp') on input line 383.
+               Default added (so using `!htbp') on input line 384.
 
 
-Overfull \hbox (12.79765pt too wide) detected at line 396
+Overfull \hbox (12.79765pt too wide) detected at line 397
 []
  []
 
 
-LaTeX Font Warning: Command \small invalid in math mode on input line 402.
+LaTeX Font Warning: Command \small invalid in math mode on input line 403.
 
 
-LaTeX Font Warning: Command \small invalid in math mode on input line 402.
+LaTeX Font Warning: Command \small invalid in math mode on input line 403.
 
 
-Overfull \hbox (14.50157pt too wide) detected at line 402
+Overfull \hbox (14.50157pt too wide) detected at line 403
 []
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!tbp') on input line 414.
+               Default added (so using `!tbp') on input line 415.
 
 <figs/figure_illustrative_communication_efficient_clustering_1.pdf, id=273, 358
 .63734pt x 121.91016pt>
@@ -956,7 +962,7 @@ File: figs/figure_illustrative_communication_efficient_clustering_1.pdf Graphic
  file (type pdf)
 <use figs/figure_illustrative_communication_efficient_clustering_1.pdf>
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
-ering_1.pdf  used on input line 418.
+ering_1.pdf  used on input line 419.
 (pdftex.def)             Requested size: 118.4403pt x 40.26022pt.
 <figs/figure_illustrative_communication_efficient_clustering_2.pdf, id=274, 360
 .09862pt x 121.7104pt>
@@ -964,7 +970,7 @@ File: figs/figure_illustrative_communication_efficient_clustering_2.pdf Graphic
  file (type pdf)
 <use figs/figure_illustrative_communication_efficient_clustering_2.pdf>
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
-ering_2.pdf  used on input line 419.
+ering_2.pdf  used on input line 420.
 (pdftex.def)             Requested size: 118.4403pt x 40.03082pt.
 <figs/figure_illustrative_communication_efficient_clustering_3.pdf, id=275, 360
 .83548pt x 121.32668pt>
@@ -972,7 +978,7 @@ File: figs/figure_illustrative_communication_efficient_clustering_3.pdf Graphic
  file (type pdf)
 <use figs/figure_illustrative_communication_efficient_clustering_3.pdf>
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
-ering_3.pdf  used on input line 420.
+ering_3.pdf  used on input line 421.
 (pdftex.def)             Requested size: 118.4403pt x 39.82317pt.
 <figs/figure_illustrative_communication_efficient_clustering_4.pdf, id=276, 360
 .20169pt x 120.95499pt>
@@ -980,49 +986,32 @@ File: figs/figure_illustrative_communication_efficient_clustering_4.pdf Graphic
  file (type pdf)
 <use figs/figure_illustrative_communication_efficient_clustering_4.pdf>
 Package pdftex.def Info: figs/figure_illustrative_communication_efficient_clust
-ering_4.pdf  used on input line 421.
+ering_4.pdf  used on input line 422.
 (pdftex.def)             Requested size: 118.4403pt x 39.7713pt.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 428.
+(hyperref)                removing `math shift' on input line 429.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 428.
+(hyperref)                removing `math shift' on input line 429.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 434.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 435.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 434.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 440.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 435.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 440.
+(hyperref)                removing `math shift' on input line 441.
 
 
-Overfull \hbox (31.55017pt too wide) detected at line 459
-[]
- []
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 441.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 466.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 466.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 466.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 466.
-
-
-Overfull \hbox (10.17249pt too wide) detected at line 466
+Overfull \hbox (31.55017pt too wide) detected at line 460
 []
  []
 
@@ -1030,73 +1019,90 @@ Overfull \hbox (10.17249pt too wide) detected at line 466
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.466 \end{align}
-                  Since it is unconstrained optimization problem, we can obt...
- <./figs/figure_illustrative_communication_efficient_clustering_1.pdf> <./figs/
-figure_illustrative_communication_efficient_clustering_2.pdf> <./figs/figure_il
-lustrative_communication_efficient_clustering_3.pdf> <./figs/figure_illustrativ
-e_communication_efficient_clustering_4.pdf>]
-Overfull \hbox (8.90091pt too wide) detected at line 475
+l.460 \end{align}
+                  <./figs/figure_illustrative_communication_efficient_clusterin
+g_1.pdf> <./figs/figure_illustrative_communication_efficient_clustering_2.pdf> 
+<./figs/figure_illustrative_communication_efficient_clustering_3.pdf> <./figs/f
+igure_illustrative_communication_efficient_clustering_4.pdf>]
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 467.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 467.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 467.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 467.
+
+
+Overfull \hbox (10.17249pt too wide) detected at line 467
 []
  []
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 484.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 484.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 484.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 484.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 484.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 484.
-
-
-Overfull \hbox (19.48404pt too wide) detected at line 484
+Overfull \hbox (8.90091pt too wide) detected at line 476
 []
  []
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 488.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 485.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 488.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 485.
 
 
-LaTeX Warning: Citation `xx' on page 6 undefined on input line 488.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 485.
 
 
-Overfull \hbox (20.56068pt too wide) detected at line 493
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 485.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 485.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 485.
+
+
+Overfull \hbox (19.48404pt too wide) detected at line 485
+[]
+ []
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 489.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 489.
+
+
+LaTeX Warning: Citation `xx' on page 6 undefined on input line 489.
+
+
+Overfull \hbox (20.56068pt too wide) detected at line 494
 []
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!htbp') on input line 501.
+               Default added (so using `!htbp') on input line 502.
 
 
-Overfull \hbox (14.2345pt too wide) detected at line 512
+Overfull \hbox (14.2345pt too wide) detected at line 513
 []
  []
 
 
-Overfull \hbox (24.05716pt too wide) detected at line 518
+Overfull \hbox (24.05716pt too wide) detected at line 519
 []
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!htbp') on input line 526.
+               Default added (so using `!htbp') on input line 527.
 
 
-LaTeX Warning: Citation `dd' on page 6 undefined on input line 555.
+LaTeX Warning: Citation `dd' on page 6 undefined on input line 556.
 
 (./FINAL VERSION.bbl) [6] (./FINAL VERSION.aux)
 
@@ -1111,7 +1117,7 @@ Package rerunfilecheck Info: File `"FINAL VERSION".out' has not changed.
 Here is how much of TeX's memory you used:
  11389 strings out of 478994
  172038 string characters out of 5858185
- 505892 words of memory out of 5000000
+ 504892 words of memory out of 5000000
  28599 multiletter control sequences out of 15000+600000
  447852 words of font info for 121 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
@@ -1153,7 +1159,7 @@ onts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
 /urw/times/utmbi8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/time
 s/utmr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on "FINAL VERSION.pdf" (6 pages, 639119 bytes).
+Output written on "FINAL VERSION.pdf" (6 pages, 639405 bytes).
 PDF statistics:
  494 PDF objects out of 1000 (max. 8388607)
  382 compressed objects within 4 object streams

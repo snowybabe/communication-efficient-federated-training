@@ -371,7 +371,8 @@ As we have shown, $\nabla_{t+1}^{(n)}$ is obtained by
 \begin{align}
 \nonumber
 &\y_{j+1}  \\ \nonumber
-= & \small \P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]^{\mathrm{-1}}\P^{\mathrm{-1}}\left[\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right].
+= & \small \P\left[\frac{4\bSigma}{\rho\eta_t\gamma} \mathrm{+} 1\right]^{\mathrm{-1}}\P^{\mathrm{-1}}\left[\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t\gamma}\right] \\ \nonumber
+= & \small \P\left[\frac{4\bSigma}{\rho\eta_t} \mathrm{+} \gamma\right]^{\mathrm{-1}}\P^{\mathrm{-1}}\left[\gamma\lrincir{\y_t^{(n)} \mathrm{-} \eta_t\g_t^{(n)}}\mathrm{+}\frac{4\bLambda^\top\left[\r_{j+1} \mathrm{+} \bLambda\y_t^{(n)} \mathrm{+} \frac{\bomega_j}{\rho}\right]}{\rho\eta_t}\right] \\ \nonumber
 \end{align} 
 
 \textbf{Update of $\bomega$.} Given $\r_{j+1}$ and $\y_{j+1}$, $\bomega_{j+1}$ is updated by the following rule.
